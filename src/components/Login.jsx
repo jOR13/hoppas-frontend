@@ -9,9 +9,6 @@ import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
 function Login(props) {
 
-
-
-
   const { value, setValue } = useContext(UserContext);
   const [user, setUser] = useState("");
   const [pass, setPass] = useState("");
@@ -64,8 +61,52 @@ function Login(props) {
     }
   };
 
-  const respuestaGoogle = (respuesta) => {
+  const respuestaGoogle = async (respuesta) => {
     console.log(respuesta.profileObj)
+    const datosGoogle = respuesta.profileObj;
+
+    const data = {
+      email: datosGoogle.email,
+      password: "default"
+    }
+
+
+    try {
+      const res = await axios.post(url + "api/user/login", data, {
+        headers: {
+          // 'Authorization': `Basic ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      console.log(res)
+      if (res.error === 'null') {
+
+        setValue(res.data);
+        console.log(res.data);
+        setLoading(false);
+        // setter
+        localStorage.setItem('session', JSON.stringify(res.data));
+        props.history.push({
+          pathname: '/Profile'
+        });
+
+      } else {
+        props.history.push({
+          pathname: '/Profile',
+          datosGoogle: { datosGoogle }
+        });
+
+      }
+
+    } catch (error) {
+      console.log(error);
+    }
+
+
+
+
+
   }
   const respuestaFacebook = (respuesta) => {
     console.log(respuesta)

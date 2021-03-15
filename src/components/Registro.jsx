@@ -51,6 +51,8 @@ function Registro(props) {
         formData.append("phone", phone);
         formData.append("password", password);
         formData.append("image", selectedFile);
+        formData.append("SignUpType", "Manual");
+
 
 
         try {
