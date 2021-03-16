@@ -80,7 +80,7 @@ function Login(props) {
       });
 
       console.log(res)
-      if (res.error === 'null') {
+      if (res.error != 'null') {
 
         setValue(res.data);
         console.log(res.data);
@@ -154,7 +154,7 @@ function Login(props) {
 
                 <i><NavLink to={"/Registro"} >
                   Registrate
-                      </NavLink>  Ó inicia con</i>
+                </NavLink>  Ó inicia con</i>
               </div>
               <div className="mb-3">
 

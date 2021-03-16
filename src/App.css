@@ -16,20 +16,19 @@ div .dropdown-toggle::after {
   content: none;
   display: none;
   background-color: red;
-
 }
 
-div .dropstart .dropdown-toggle::before{
+div .dropstart .dropdown-toggle::before {
   content: none;
   display: none;
   background-color: red;
 }
 
-.validar{
+.validar {
   color: red;
 }
 
-.btnFacebook{
+.btnFacebook {
   background: none;
   border: none;
 }
@@ -38,3 +37,31 @@ div .dropstart .dropdown-toggle::before{
   background-image: url('https://data.1freewallpapers.com/detail/grand-teton-national-park-united-states-wyoming-beautiful-landscape.jpg');
  align-self: center; 
 } */
+
+.profile {
+  --bs-gradient: linear-gradient(
+    to right,
+    #766df4 0%,
+    #766df4 30%,
+    #6a9bf4 100%
+  );
+
+  background-image: var(--bs-gradient) !important;
+  height: 230px !important;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.profile2 {
+  
+  border-radius: 0px 0px 10px 10px;
+}
+
+
+.link{
+  text-decoration: none;
+}
+
+.link2:hover{
+  color: rgb(66, 215, 241)
+}
+

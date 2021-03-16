@@ -45,7 +45,7 @@ function Posts() {
             {posts.length >= 0 ? (
                     <div className="col-md-12">
                         {posts.map((p) =>
-                            <div className="card mt-5  justify-content-center text-center" style={{ width: '18rem' }}>
+                            <div key={p.id} className="card mt-5  justify-content-center text-center" style={{ width: '18rem' }}>
                                 <div className="card-body">
                                     <h5 className="card-title">{p.userID}</h5>
                                     <p className="card-text">{p.message}</p>

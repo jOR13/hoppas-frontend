@@ -1,136 +1,106 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import ArrowRight from '@material-ui/icons/ArrowRight';
 import axios from 'axios'
+import { Facebook, Instagram, Camera, PencilFill } from "react-bootstrap-icons";
+
 
 
 function Profile(props) {
 
-    const [datos, setDatos] = useState({
-        fullName: "",
-        email: "",
-        address: "",
-        phone: "",
-        password: "default",
-        image: "",
-        SignUpType: "Google"
-    });
+    const [user, setUser] = useState({})
 
 
 
 
-    const [dis, setDis] = useState(true);
 
-    // lee los inputs
-    const actualizarState = (e) => {
-        console.log(datos)
-        // setDatos({
-        //     ...datos,
-        //     [e.target.name]: e.target.value,
+    useEffect(() => {
 
-        // });
+        setUser(JSON.parse(localStorage.getItem("session")));
+        console.log(user)
 
-        setDatos({
-            ...datos,
-            fullName: props.location.datosGoogle.datosGoogle.name,
-            email: props.location.datosGoogle.datosGoogle.email,
-            image: props.location.datosGoogle.datosGoogle.imageUrl,
-            [e.target.name]: e.target.value
-        })
-
-        if (address != "" && phone != "") {
-            setDis(!dis)
-        }
-    };
-
-    // extraer los valores
-    const { fullName, email, address, phone, password } = datos;
-
-    const completeRegister = async () => {
+    }, [])
 
 
-        try {
-            const resultado = await axios.post(`${process.env.REACT_APP_API_URL}api/user/registerGoogle`, datos);
 
-            // AsyncStorage.setItem('user', JSON.stringify(resultado.data));
-            console.log(resultado);
-            // setLoading(false);
-            if (resultado.status === 200) {
-                props.history.push("/");
-            }
 
-        } catch (error) {
-            console.log(error);
-            // setErrorConsulta(true);
-            // setLoading(false);
-        }
-    }
+    // const completeRegister = async () => {
+
+
+    //     try {
+    //         const resultado = await axios.post(`${process.env.REACT_APP_API_URL}api/user/registerGoogle`, datos);
+
+    //         // AsyncStorage.setItem('user', JSON.stringify(resultado.data));
+    //         console.log(resultado);
+    //         // setLoading(false);
+    //         if (resultado.status === 200) {
+    //             props.history.push("/");
+    //         }
+
+    //     } catch (error) {
+    //         console.log(error);
+    //         // setErrorConsulta(true);
+    //         // setLoading(false);
+    //     }
+    // }
 
 
     return (
-        <div className="container-fluid">
-            <div className="row justify-content-center text-center">
-                <div className="col-lg-12 justify-content-center d-flex fondo" style={{ height: 300, }}>
-
-                    {props.location.datosGoogle != undefined ? (<div className="card border-0 " style={{ width: '30rem', backgroundColor: 'transparent', marginTop: "5%" }}>
-                        <PhotoCamera style={{ position: 'absolute' }} />
-                        <img src={props.location.datosGoogle.datosGoogle.imageUrl} className=" mt-5 card-img-top align-self-center rounded-circle w-50" alt="..." />
-                        <h3 className="mt-3">{props.location.datosGoogle.datosGoogle.name} </h3>
-                        <div className="card-body">
-                            <div className="mb-3">
-                                <p className="card-text">Parece que te faltan algunos datos por llenar</p>
-                                <i style={{ color: "gray" }}>No te preocupes, estos datos solo tienes que llenarlos esta vez.</i>
-                                <input
-                                    className="border-info rounded-pill mt-3 mb-2 text-center form-control"
-                                    type="text"
-                                    placeholder="Correo electronico"
-                                    name="Nombre"
-                                    disabled={true}
-                                    value={props.location.datosGoogle.datosGoogle.name}
-                                ></input>
-                                <input
-                                    className="border-info rounded-pill mt-3 mb-2 text-center form-control"
-                                    type="text"
-                                    placeholder="Correo electronico"
-                                    name="Email"
-                                    disabled={true}
-                                    value={props.location.datosGoogle.datosGoogle.email}
-                                ></input>
-                                <input
-                                    className="border-info rounded-pill mt-3 mb-2 text-center form-control"
-                                    type="text"
-                                    placeholder="Escribe tu dirección"
-                                    name="address"
-                                    onChange={actualizarState}
-                                    value={address}
-                                ></input>
-                                <input
-                                    className="border-info rounded-pill mt-3 mb-2 text-center form-control"
-                                    type="text"
-                                    placeholder="Escribe tu telefono"
-                                    name="phone"
-                                    onChange={actualizarState}
-                                    value={phone}
-                                ></input>
+        <>
+            {user.user ? (
+                <div className="container p-3">
+                    <div className="row  ">
+                        <div className="mt-3 col-xs-12 profile rounded-soft rounded-bottom-0" style={{ height: 300, }}>
+                            <div className="d-flex align-items-end" style={{ position: 'absolute' }}>
+                                <Camera size={20} />
                             </div>
-                            <div className="mb-3">
-                                <button
-                                    className="btn btn-outline-primary form-control  rounded-pill"
-                                    type="submit"
-                                    disabled={dis}
-                                    onClick={completeRegister}
-                                >
-                                    Guardar <ArrowRight />
-                                </button>
+                            <div className="card ms-3 text-center border-0" style={{ backgroundColor: 'transparent', marginTop: 110 }}>
+
+                                {user.user.SignUpType === "Google" || user.user.SignUpType === "Facebook" ? (
+                                    <>
+                                        <div className="position-relative">
+
+
+                                            <img src={user.user.image} className="position-absolute mt-5 rounded-circle img-thumbnail shadow" style={{ left: "0px", top: "-6px", width: "150px" }} />
+                                            <PencilFill size={30} className="position-absolute rounded-circle img-thumbnail" style={{ left: "120px", top: "153px", weight: "auto" }} />
+                                        </div>
+
+                                    </>
+                                ) : (
+                                    <img src={process.env.REACT_APP_API_URL + user.user.image} className=" mt-5 card-img-top align-self-center rounded-circle w-50" />
+                                )}
                             </div>
                         </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-12 shadow">
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <div clasName="card border-0 text-center" style={{ backgroundColor: 'transparent' }}>
+                                        <div className="mt-5 card-body align-self-start">
+                                            <h3 className="mt-3">{user.user.fullName}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-md-6 d-flex justify-content-start border-top justify-content-md-end">
+                                    <div className="card border-0">
+                                        <div className="card-body">
+                                            <a className="link" href="#"><h5 className="mt-3 link2 d-flex align-items-center me-1"><Facebook size={20} />Facebook</h5></a>
+                                            <a className="link" href="#"><h5 className="mt-3 link2 d-flex align-items-center me-1"><Instagram size={20} />Instagram</h5></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-md-12">
+                            <h5 className="mt-5">Informacion de la cuenta</h5>
+                        </div>
+                    </div>
+                </div >
+            ) : <h1>Error al cargar el perfil </h1>
+            }
+        </>
 
-                    </div>) : (<h4 className="mt-5">Hubo un error al cargar su perfil</h4>)}
-
-                </div>
-
-            </div>
-        </div>
     )
 }
 
