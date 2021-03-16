@@ -15,10 +15,7 @@ function Profile(props) {
 
 
     useEffect(() => {
-
         setUser(JSON.parse(localStorage.getItem("session")));
-        console.log(user)
-
     }, [])
 
 
@@ -76,7 +73,7 @@ function Profile(props) {
                         <div className="col-12 shadow">
                             <div className="row">
                                 <div className="col-md-6">
-                                    <div clasName="card border-0 text-center" style={{ backgroundColor: 'transparent' }}>
+                                    <div className="card border-0 text-center" style={{ backgroundColor: 'transparent' }}>
                                         <div className="mt-5 card-body align-self-start">
                                             <h3 className="mt-3">{user.user.fullName}</h3>
                                         </div>

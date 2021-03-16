@@ -43,9 +43,7 @@ function App() {
         <Router>
           <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
-              <a className="navbar-brand" href="#">
-                HIPERGAS
-              </a>
+              <a className="navbar-brand">HIPERGAS</a>
               <button
                 className="navbar-toggler"
                 type="button"
@@ -78,7 +76,6 @@ function App() {
                   <li className="nav-item dropstart ">
                     <a
                       className="nav-link dropdown-toggle"
-                      href="#"
                       id="navbarDropdownMenuLink"
                       role="button"
                       data-bs-toggle="dropdown"
@@ -98,22 +95,21 @@ function App() {
                       aria-labelledby="navbarDropdownMenuLink"
                     >
                       <li>
-                        <a className="dropdown-item" href="#">
-                          <NavLink to={"/Profile"} className="nav-link">
-                            Perfil
-                          </NavLink>
-                        </a>
+                        <NavLink
+                          to={"/Profile"}
+                          className="dropdown-item nav-link"
+                        >
+                          Perfil
+                        </NavLink>
                       </li>
                       <li>
-                        <a className="dropdown-item" href="#">
-                          <NavLink
-                            onClick={(e) => cerrarSesion(e)}
-                            to={"/"}
-                            className="nav-link"
-                          >
-                            Cerrar sesion
-                          </NavLink>
-                        </a>
+                        <NavLink
+                          onClick={(e) => cerrarSesion(e)}
+                          to={"/"}
+                          className="dropdown-item nav-link"
+                        >
+                          Cerrar sesion
+                        </NavLink>
                       </li>
                     </ul>
                   </li>
