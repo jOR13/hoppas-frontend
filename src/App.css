@@ -52,16 +52,17 @@ div .dropstart .dropdown-toggle::before {
 }
 
 .profile2 {
-  
   border-radius: 0px 0px 10px 10px;
 }
 
-
-.link{
+.link {
   text-decoration: none;
 }
 
-.link2:hover{
-  color: rgb(66, 215, 241)
+.link2:hover {
+  color: rgb(66, 215, 241);
 }
 
+.hoverIcon:hover {
+  transform: scale(1.2);
+}

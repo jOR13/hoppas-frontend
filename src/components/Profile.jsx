@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import ArrowRight from '@material-ui/icons/ArrowRight';
 import axios from 'axios'
-import { Facebook, Instagram, Camera, PencilFill } from "react-bootstrap-icons";
+import { Facebook, Instagram, CameraFill, PencilFill } from "react-bootstrap-icons";
 
 
 
@@ -50,10 +50,10 @@ function Profile(props) {
             {user.user ? (
                 <div className="container p-3">
                     <div className="row  ">
-                        <div className="mt-3 col-xs-12 profile rounded-soft rounded-bottom-0" style={{ height: 300, }}>
-                            <div className="d-flex align-items-end" style={{ position: 'absolute' }}>
-                                <Camera size={20} />
-                            </div>
+                        <div className="mt-3 col-xs-12 profile rounded-soft rounded-bottom-0 position-relative" style={{ height: 300, }}>
+
+                            <CameraFill size={30} className="position-absolute rounded-circle hoverIcon" style={{ right: "4px", top: "4px", width: "40px" }} />
+
                             <div className="card ms-3 text-center border-0" style={{ backgroundColor: 'transparent', marginTop: 110 }}>
 
                                 {user.user.SignUpType === "Google" || user.user.SignUpType === "Facebook" ? (
@@ -62,7 +62,7 @@ function Profile(props) {
 
 
                                             <img src={user.user.image} className="position-absolute mt-5 rounded-circle img-thumbnail shadow" style={{ left: "0px", top: "-6px", width: "150px" }} />
-                                            <PencilFill size={30} className="position-absolute rounded-circle img-thumbnail" style={{ left: "120px", top: "153px", weight: "auto" }} />
+                                            <PencilFill className="position-absolute rounded-circle  hoverIcon img-thumbnail" style={{ left: "116px", top: "155px", width: "30px" }} />
                                         </div>
 
                                     </>
