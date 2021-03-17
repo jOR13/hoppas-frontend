@@ -1,6 +1,7 @@
 import Login from "./components/Login";
 import Posts from "./components/Posts";
 import Profile from "./components/Profile";
+import Mascotas from "./components/Mascotas";
 import "./App.css";
 import React, { useEffect, useState } from "react";
 import { UserContext } from "./context/UserContext";
@@ -70,6 +71,11 @@ function App() {
                       Inicio
                     </NavLink>
                   </li>
+                  <li className="nav-item">
+                    <NavLink to={"/Mascotas"} className="nav-link">
+                      Mascotas
+                    </NavLink>
+                  </li>
                 </ul>
 
                 <ul className="navbar-nav ">
@@ -122,6 +128,7 @@ function App() {
             <Route exact path="/Posts" component={Posts} />
             <Route exact path="/Registro" component={Registro} />
             <Route exact path="/Profile" component={Profile} />
+            <Route exact path="/Mascotas" component={Mascotas} />
           </Switch>
         </Router>
       </UserContext.Provider>
