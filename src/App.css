@@ -66,3 +66,11 @@ div .dropstart .dropdown-toggle::before {
 .hoverIcon:hover {
   transform: scale(1.2);
 }
+
+
+.CusCard-left {
+  border-radius: 20px;
+  background: linear-gradient(
+    180deg
+    ,#ff7e5f  ,#feb47b);
+}

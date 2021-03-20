@@ -2,6 +2,7 @@ import Login from "./components/Login";
 import Posts from "./components/Posts";
 import Profile from "./components/Profile";
 import Mascotas from "./components/Mascotas";
+import MascotasForm from "./components/MascotasForm";
 import "./App.css";
 import React, { useEffect, useState } from "react";
 import { UserContext } from "./context/UserContext";
@@ -73,7 +74,7 @@ function App() {
                   </li>
                   <li className="nav-item">
                     <NavLink to={"/Mascotas"} className="nav-link">
-                      Mascotas
+                      Dispositivos
                     </NavLink>
                   </li>
                 </ul>
@@ -129,6 +130,7 @@ function App() {
             <Route exact path="/Registro" component={Registro} />
             <Route exact path="/Profile" component={Profile} />
             <Route exact path="/Mascotas" component={Mascotas} />
+            <Route exact path="/MascotasForm" component={MascotasForm} />
           </Switch>
         </Router>
       </UserContext.Provider>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import ArrowRight from '@material-ui/icons/ArrowRight';
+import Avatar from '@material-ui/core/Avatar';
 import MascotasForm from './MascotasForm';
 function Mascotas() {
 
@@ -35,23 +36,21 @@ function Mascotas() {
                         </div>
                     </div>
                 </div>
-
-                {mascotas.length >= 0 ? (
-                    <div className="col-md-12 justify-content-center d-flex">
-
-                        <div className="">
-                            {mascotas.map((m) =>
-                                <div key={m.id} className="card mt-5 text-center mb-5" style={{ width: '18rem' }}>
-                                    <img src={process.env.REACT_APP_API_URL+m.imageID} class="card-img-top" alt=""/>
-                                    <div className="card-body">
-                                        <h5 className="card-title">{m.name}</h5>
-                                        {/* <h2>{process.env.REACT_APP_API_URL+m.imageID}</h2> */}
-                                    </div>
+                {mascotas.length > 0 ? (
+                    mascotas.map((m) =>
+                        <div className="col-sm-6 col-md-3 align-self-center justify-content-center d-flex">
+                            <div className="card border-0 shadow mt-4 ms-4 CusCard-left" style={{ borderRadius: '20px', maxHeight: '300px', maxWidth: '300px', minWidth: '170px'}} >
+                                <img className="card-img-top p-3" src={process.env.REACT_APP_API_URL + m.imageID} alt={m.name} style={{maxHeight: '200px', minHeight: '200px'}} />
+                                <div className="card-body py-4 text-center">
+                                    <h3 className="h5">{m.name}</h3>
                                 </div>
-                            )}
+                            </div>
                         </div>
-                    </div>
+                    )
                 ) : null}
+
+
+
             </div>
         </div>
     )

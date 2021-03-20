@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ArrowRight, PersonCircle, Envelope, House, Lock, Phone } from "react-bootstrap-icons";
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
@@ -9,12 +9,18 @@ import * as Yup from 'yup';
 
 function MascotasForm(props) {
 
+    
     const [selectedFile, setSelectedFile] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [errorConsulta, setErrorConsulta] = useState(null);
+    const [errorConsulta, setErrorConsulta] = useState(false);
     const [btnDisable, setBtnDisable] = useState(true);
-
-
+    const [user, setUser] = useState({});
+    
+    useEffect(() => {
+        setUser(JSON.parse(localStorage.getItem("session")));
+    }, [])
+    
+    console.log(user)
 
     const registarUser = async (values) => {
 
@@ -24,14 +30,18 @@ function MascotasForm(props) {
 
         let formData = new FormData();
 
+
+        
+
+
         formData.append("name", name);
         formData.append("type", type);
         formData.append("race", race);
         formData.append("address", address);
         formData.append("description", description);
         formData.append("contact", contact);
-        formData.append("userID", userID);
-        formData.append("qrID", qrID);
+        formData.append("userID", user.user._id);
+        // formData.append("qrID", "");
         formData.append("reward", reward);
         formData.append("imageID", selectedFile);
 
@@ -48,9 +58,7 @@ function MascotasForm(props) {
             // AsyncStorage.setItem('user', JSON.stringify(resultado.data));
             console.log(resultado);
             setLoading(false);
-            if (resultado.status === 200) {
-                props.history.push("/");
-            }
+          
 
         } catch (error) {
             console.log(error);
@@ -68,9 +76,9 @@ function MascotasForm(props) {
             type: Yup.string().min(3, '* Debe ingresar el tipo de mascota').required('Campo requerido'),
             race: Yup.string().min(3, '* Escriba la raza de su mascota').required('Campo requerido'),
             address: Yup.string().min(10, '* Escriba su dirección completa').required('Campo requerido'),
-            description: Yup.number().min(10, 'Escriba una breve descripcion de su mascota').required('Campo requerido'),
+            description: Yup.string().min(10, 'Escriba una breve descripcion de su mascota').required('Campo requerido'),
             contact: Yup.string().min(6, 'Escriba los datos de su contacto').required('Campo requerido'),
-
+            // reward: Yup.number().min(1, 'La recompensa debe ').required('Campo requerido').positive().integer(),
         }),
         onSubmit: values => {
             setLoading(true);
@@ -107,34 +115,26 @@ function MascotasForm(props) {
                             ) : null}
                             <hr />
                         </div>
+
                         <div className="mb-3">
-                            <label className="form-label"><Envelope className="iconos" /> Tipo</label>
-                            {/* <input
-                                        className="border-warning rounded-pill  mb-2   form-control"
-                                        type="email"
-                                        placeholder="Ej. benito@dominio.com"
-                                        name={"email"}
-                                        // onChange={actualizarState}
-                                        // value={email}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        value={formik.values.email}
-                                    /> */}
-                            <select className="form-select rounded-pill" aria-label="Default select example" onChange={formik.handleChange}
+                            <label className="form-label"><House className="iconos" /> Tipo</label>
+                            <input
+                                className="border-success rounded-pill  mb-2   form-control"
+                                type="text"
+                                placeholder="Ej. Pitbull"
+                                name={"type"}
+                                // onChange={actualizarState}
+                                // value={address}
+                                onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                value={formik.values.type}>
-                                <option selected>Seleccione el tipo</option>
-                                <option value="1">Perruno</option>
-                                <option value="2">Felino</option>
-                                <option value="3">Roedor</option>
-                                <option value="4">Ave</option>
-                                <option value="4">Maritimo</option>
-                            </select>
+                                value={formik.values.type}
+                            ></input>
                             {formik.touched.type && formik.errors.type ? (
                                 <div className="validar">{formik.errors.type}</div>
                             ) : null}
                             <hr />
                         </div>
+
                         <div className="mb-3">
                             <label className="form-label"><House className="iconos" /> Raza</label>
                             <input
@@ -157,7 +157,7 @@ function MascotasForm(props) {
                             <label className="form-label"><Phone className="iconos" /> Direccion</label>
                             <input
                                 className="border-danger rounded-pill  mb-2   form-control"
-                                type="number"
+                                type="text"
                                 placeholder="Ej. 656 1 23 45 67"
                                 name={"address"}
                                 // onChange={actualizarState}
@@ -175,7 +175,7 @@ function MascotasForm(props) {
                         <div className="mb-3">
                             <label className="form-label"><Lock className="iconos" /> Descripcion</label>
                             <textarea
-                                name={"descripcion"}
+                                name={"description"}
                                 className="border-secondary rounded-pill mb-3 form-control"
                                 type="text"
                                 rows="3"
@@ -184,11 +184,11 @@ function MascotasForm(props) {
                                 // value={password}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                value={formik.values.descripcion}
+                                value={formik.values.description}
 
                             ></textarea>
-                            {formik.touched.descripcion && formik.errors.descripcion ? (
-                                <div className="validar">{formik.errors.descripcion}</div>
+                            {formik.touched.description && formik.errors.description ? (
+                                <div className="validar">{formik.errors.description}</div>
                             ) : null}
                             <hr />
                         </div>
@@ -216,7 +216,7 @@ function MascotasForm(props) {
                             <input
                                 name={"reward"}
                                 className="border-secondary rounded-pill mb-3 form-control"
-                                type="text"
+                                type="number"
                                 placeholder="Ej. Se me perdio ayer"
                                 // onChange={actualizarState}
                                 // value={password}
