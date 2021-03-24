@@ -1,3 +1,12 @@
+/* @font-face {
+  font-family: myFirstFont;
+  src: url(src/assets/fonts/Anton-Regular.ttf);
+}
+
+* {
+  font-family: myFirstFont;
+} */
+
 .hover:hover {
   border-inline-start-color: blueviolet;
   -webkit-transform: rotate(360deg);
@@ -67,10 +76,11 @@ div .dropstart .dropdown-toggle::before {
   transform: scale(1.2);
 }
 
-
 .CusCard-left {
   border-radius: 20px;
-  background: linear-gradient(
-    180deg
-    ,#ff7e5f  ,#feb47b);
+  background: linear-gradient(180deg, #ff7e5f, #feb47b);
+}
+
+.nav-link:hover {
+  color: rgb(66, 215, 241);
 }

@@ -3,6 +3,7 @@ import Posts from "./components/Posts";
 import Profile from "./components/Profile";
 import Mascotas from "./components/Mascotas";
 import MascotasForm from "./components/MascotasForm";
+import Qrs from "./components/Qrs";
 import "./App.css";
 import React, { useEffect, useState } from "react";
 import { UserContext } from "./context/UserContext";
@@ -62,11 +63,13 @@ function App() {
                 id="navbarSupportedContent"
               >
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                  <li className="nav-item">
-                    <NavLink to={"/"} className="nav-link">
-                      Login
-                    </NavLink>
-                  </li>
+                  {value.user === undefined ? (
+                    <li className="nav-item">
+                      <NavLink to={"/"} className="nav-link">
+                        Login
+                      </NavLink>
+                    </li>
+                  ) : null}
                   <li className="nav-item">
                     <NavLink to={"/Posts"} className="nav-link">
                       Inicio
@@ -74,7 +77,12 @@ function App() {
                   </li>
                   <li className="nav-item">
                     <NavLink to={"/Mascotas"} className="nav-link">
-                      Dispositivos
+                      DIspositivos
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink to={"/Qrs"} className="nav-link">
+                      Qrs
                     </NavLink>
                   </li>
                 </ul>
@@ -90,30 +98,38 @@ function App() {
                     >
                       {value ? (
                         <div className="d-flex align-items-center">
-                          <Avatar alt="" src={url + value.user.image} />
-                          <i className="ms-2 mb-0">
+                          {/* <Avatar alt="" src={url + value.user.image} /> */}
+                          <Avatar alt="" src={ value.user.image} />
+                          <b className="ms-2 mb-0">
                             {value.user.fullName.toUpperCase()}
-                          </i>
+                          </b>
                         </div>
                       ) : null}
                     </a>
                     <ul
                       className="dropdown-menu dropdown-menu-dark"
-                      aria-labelledby="navbarDropdownMenuLink"
                     >
                       <li>
                         <NavLink
                           to={"/Profile"}
-                          className="dropdown-item nav-link"
+                          className="dropdown-item"
                         >
                           Perfil
                         </NavLink>
                       </li>
                       <li>
                         <NavLink
+                          to={"/Mesages"}
+                          className="dropdown-item"
+                        >
+                          Mensajes
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
                           onClick={(e) => cerrarSesion(e)}
                           to={"/"}
-                          className="dropdown-item nav-link"
+                          className="dropdown-item" style={{ backgroundColor: 'transparent'}}
                         >
                           Cerrar sesion
                         </NavLink>
@@ -131,6 +147,7 @@ function App() {
             <Route exact path="/Profile" component={Profile} />
             <Route exact path="/Mascotas" component={Mascotas} />
             <Route exact path="/MascotasForm" component={MascotasForm} />
+            <Route exact path="/Qrs" component={Qrs} />
           </Switch>
         </Router>
       </UserContext.Provider>

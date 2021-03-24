@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { ArrowRight, PersonCircle, Envelope, House, Lock, Phone } from "react-bootstrap-icons";
+import React, { useState, useEffect, useRef } from 'react'
+import { ArrowRight, PersonCircle, Cash, House, JournalText, Asterisk, CircleHalf, Phone } from "react-bootstrap-icons";
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import axios from 'axios'
@@ -7,20 +7,33 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-function MascotasForm(props) {
+function MascotasForm({ mascotas }) {
 
-    
     const [selectedFile, setSelectedFile] = useState(null);
     const [loading, setLoading] = useState(false);
     const [errorConsulta, setErrorConsulta] = useState(false);
     const [btnDisable, setBtnDisable] = useState(true);
     const [user, setUser] = useState({});
-    
+    const [nombreM, setNombreM] = useState("");
+    const [fotografia] = useState("");
+    const [tipo, setTipo] = useState("");
+    const [raza, setRaza] = useState("");
+    const [descripcion, setDescripcion] = useState("");
+    const [direccion, setDireccion] = useState("");
+    const [contacto, setContacto] = useState("");
+
+
     useEffect(() => {
         setUser(JSON.parse(localStorage.getItem("session")));
+        if (mascotas.editando) {
+            setNombreM('sdsdsdsd');
+        }
     }, [])
-    
-    console.log(user)
+
+
+
+    // console.log(props)
+    console.log(mascotas)
 
     const registarUser = async (values) => {
 
@@ -30,10 +43,6 @@ function MascotasForm(props) {
 
         let formData = new FormData();
 
-
-        
-
-
         formData.append("name", name);
         formData.append("type", type);
         formData.append("race", race);
@@ -41,11 +50,9 @@ function MascotasForm(props) {
         formData.append("description", description);
         formData.append("contact", contact);
         formData.append("userID", user.user._id);
-        // formData.append("qrID", "");
+        //formData.append("qrID", "");
         formData.append("reward", reward);
         formData.append("imageID", selectedFile);
-
-
 
         try {
             const resultado = await axios.post(`${process.env.REACT_APP_API_URL}api/pets/createPet`, formData, {
@@ -58,7 +65,6 @@ function MascotasForm(props) {
             // AsyncStorage.setItem('user', JSON.stringify(resultado.data));
             console.log(resultado);
             setLoading(false);
-          
 
         } catch (error) {
             console.log(error);
@@ -69,7 +75,7 @@ function MascotasForm(props) {
 
     const formik = useFormik({
         initialValues: {
-            name: '', type: '', race: '', address: '', description: '', contact: ''
+            name: nombreM, type: tipo, race: raza, address: direccion, description: descripcion, contact: contacto
         },
         validationSchema: Yup.object({
             name: Yup.string().min(3, '* Debe ingresar su nombre').required('Campo requerido'),
@@ -86,19 +92,13 @@ function MascotasForm(props) {
         },
     });
 
-
-
     return (
         <div>
             {!loading ? (<div className="card border-0">
-
                 <div className="card-body text-center">
-                    <form onSubmit={formik.handleSubmit}>
-                        <div>
-                            <h1 style={{ color: "gray" }}>Registrar</h1>
-                            <hr />
-                            {errorConsulta ? <h5 style={{ color: "red", background_color: 'orange' }}><i>Revice sus datos, hubo un error al tratar de registrarse. </i></h5> : null}
-                            <label className="form-label mt-3"><PersonCircle className="iconos" /> Nombre</label>
+                    <form className="row g-3" onSubmit={formik.handleSubmit}>
+                        <div className="col-md-4">
+                            <label className="form-label"><PersonCircle className="iconos" /> Nombre</label>
                             <input
                                 className="border-info rounded-pill  mb-2 form-control"
                                 type="text"
@@ -108,18 +108,16 @@ function MascotasForm(props) {
                                 // value={fullName}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                value={formik.values.name}
+                                value={mascotas.editando ? mascotas.mascotas[0].name : (formik.values.name)}
                             />
                             {formik.touched.fullName && formik.errors.name ? (
                                 <div className="validar">{formik.errors.name}</div>
                             ) : null}
-                            <hr />
                         </div>
-
-                        <div className="mb-3">
-                            <label className="form-label"><House className="iconos" /> Tipo</label>
+                        <div className="col-md-4">
+                            <label className="form-label"><Asterisk className="iconos" /> Tipo</label>
                             <input
-                                className="border-success rounded-pill  mb-2   form-control"
+                                className="border-info rounded-pill  mb-2   form-control"
                                 type="text"
                                 placeholder="Ej. Pitbull"
                                 name={"type"}
@@ -127,18 +125,16 @@ function MascotasForm(props) {
                                 // value={address}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                value={formik.values.type}
+                                value={mascotas.editando ? mascotas.mascotas[0].type : (formik.values.type)}
                             ></input>
                             {formik.touched.type && formik.errors.type ? (
                                 <div className="validar">{formik.errors.type}</div>
                             ) : null}
-                            <hr />
                         </div>
-
-                        <div className="mb-3">
-                            <label className="form-label"><House className="iconos" /> Raza</label>
+                        <div className="col-md-4">
+                            <label className="form-label"><CircleHalf className="iconos" /> Raza</label>
                             <input
-                                className="border-success rounded-pill  mb-2   form-control"
+                                className="border-info rounded-pill  mb-2   form-control"
                                 type="text"
                                 placeholder="Ej. Pitbull"
                                 name={"race"}
@@ -146,17 +142,16 @@ function MascotasForm(props) {
                                 // value={address}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                value={formik.values.race}
+                                value={mascotas.editando ? mascotas.mascotas[0].race : (formik.values.race)}
                             ></input>
                             {formik.touched.race && formik.errors.race ? (
                                 <div className="validar">{formik.errors.race}</div>
                             ) : null}
-                            <hr />
                         </div>
-                        <div className="mb-3">
-                            <label className="form-label"><Phone className="iconos" /> Direccion</label>
+                        <div className="col-6">
+                            <label className="form-label"><House className="iconos" /> Direccion</label>
                             <input
-                                className="border-danger rounded-pill  mb-2   form-control"
+                                className="border-info rounded-pill  mb-2   form-control"
                                 type="text"
                                 placeholder="Ej. 656 1 23 45 67"
                                 name={"address"}
@@ -164,19 +159,17 @@ function MascotasForm(props) {
                                 // value={phone}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                value={formik.values.address}
+                                value={mascotas.editando ? mascotas.mascotas[0].address : (formik.values.address)}
                             ></input>
                             {formik.touched.address && formik.errors.address ? (
                                 <div className="validar">{formik.errors.address}</div>
                             ) : null}
-                            <hr />
                         </div>
-
-                        <div className="mb-3">
-                            <label className="form-label"><Lock className="iconos" /> Descripcion</label>
+                        <div className="col-md-6">
+                            <label className="form-label"><JournalText className="iconos" /> Descripcion</label>
                             <textarea
                                 name={"description"}
-                                className="border-secondary rounded-pill mb-3 form-control"
+                                className="border-info rounded-pill mb-3 form-control"
                                 type="text"
                                 rows="3"
                                 placeholder="Ej. Se me perdio ayer"
@@ -184,84 +177,76 @@ function MascotasForm(props) {
                                 // value={password}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                value={formik.values.description}
+                                value={mascotas.editando ? mascotas.mascotas[0].description : (formik.values.description)}
 
                             ></textarea>
                             {formik.touched.description && formik.errors.description ? (
                                 <div className="validar">{formik.errors.description}</div>
                             ) : null}
-                            <hr />
                         </div>
-
-                        <div className="mb-3">
-                            <label className="form-label"><Lock className="iconos" /> Contacto</label>
+                        <div className="col-md-4">
+                            <label className="form-label"><Phone className="iconos" /> Contacto</label>
                             <input
                                 name={"contact"}
-                                className="border-secondary rounded-pill mb-3 form-control"
+                                className="border-info rounded-pill mb-3 form-control"
                                 type="text"
                                 placeholder="Ej. Se me perdio ayer"
                                 // onChange={actualizarState}
                                 // value={password}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                value={formik.values.contact}
+                                value={mascotas.editando ? mascotas.mascotas[0].contact : (formik.values.contact)}
                             ></input>
                             {formik.touched.contact && formik.errors.contact ? (
                                 <div className="validar">{formik.errors.contact}</div>
                             ) : null}
-                            <hr />
                         </div>
-                        <div className="mb-3">
-                            <label className="form-label"><Lock className="iconos" /> Recompensa</label>
+                        <div className="col-md-2">
+                            <label className="form-label"><Cash className="iconos" /> Recompensa</label>
                             <input
                                 name={"reward"}
-                                className="border-secondary rounded-pill mb-3 form-control"
+                                className="border-info rounded-pill mb-3 form-control"
                                 type="number"
                                 placeholder="Ej. Se me perdio ayer"
                                 // onChange={actualizarState}
                                 // value={password}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                value={formik.values.reward}
+                                value={mascotas.editando ? mascotas.mascotas[0].reward : (formik.values.reward)}
                             ></input>
                             {formik.touched.reward && formik.errors.reward ? (
                                 <div className="validar">{formik.errors.reward}</div>
                             ) : null}
-                            <hr />
                         </div>
-
-                        <div className="mb-3">
+                        <div className="col-md-6">
                             <input accept="image/*" onLoad={() => setBtnDisable(false)}
                                 onChange={(e) => setSelectedFile(e.target.files[0])} id="icon-button-file" style={{ display: 'none' }} type="file" />
-                            <label htmlFor="icon-button-file"> <i>Selecciona una foto de perfil para completar tu registro</i>
+                            <label className="mt-4" htmlFor="icon-button-file"> <i>Selecciona una foto de perfil para completar tu registro</i>
                                 <IconButton color="primary" aria-label="upload picture" component="span">
                                     <PhotoCamera />
                                 </IconButton>
                             </label>
-                            <hr />
-
                         </div>
-
-                        <div className="mb-3">
+                        <div className="col-md-12">
                             {selectedFile != null ? (<button
-                                className="btn btn-outline-dark form-control  rounded-pill"
+                                className="btn btn-outline-dark form-control rounded-pill"
                                 type="submit"
                                 disabled={false}
                             >
-                                Registrar <ArrowRight />
+                                {mascotas.editando ? <b>Editar</b>  : <b>Registrar</b>}  < ArrowRight />
                             </button>) : <button
                                 className="btn btn-outline-dark form-control  rounded-pill"
                                 type="submit"
                                 disabled={true}
                             >
-                                Registrar <ArrowRight />
+                                {mascotas.editando ? <b>Editar</b>  : <b>Registrar</b>}  < ArrowRight />
                             </button>}
                         </div>
-
                     </form>
                 </div>
-            </div>) : (<CircularProgress style={{ marginTop: "30vh", color: "aqua" }} />)}
-        </div>
+            </div >) : (<CircularProgress style={{ marginTop: "30vh", color: "aqua" }} />)
+            }
+        </div >
 
     )
 }
