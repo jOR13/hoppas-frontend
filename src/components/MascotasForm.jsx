@@ -37,7 +37,7 @@ function MascotasForm({ mascotas }) {
         let formData = new FormData();
 
         try {
-            if (mascotas.editando) {
+            // if (mascotas.editando) {
                 formData.append("name", name);
                 formData.append("type", type);
                 formData.append("race", race);
@@ -45,29 +45,8 @@ function MascotasForm({ mascotas }) {
                 formData.append("description", description);
                 formData.append("contact", contact);
                 formData.append("userID", user.user._id);
-                //formData.append("qrID", "");
+                formData.append("qrID", null);
                 formData.append("reward", reward);
-                formData.append("imageID", selectedFile);
-
-                const resultado = await axios.put(`${process.env.REACT_APP_API_URL}api/pets/createPet`, formData, {
-                    headers: {
-                        // 'Authorization': `Basic ${token}`,
-                        'Content-Type': 'multipart/form-data'
-                    },
-                });
-                // AsyncStorage.setItem('user', JSON.stringify(resultado.data));
-                console.log(resultado);
-                setLoading(false);
-            } else {
-                formData.append("name",  mascotas.mascotas[0].name);
-                formData.append("type", mascotas.mascotas[0].type);
-                formData.append("race", mascotas.mascotas[0].race);
-                formData.append("address", mascotas.mascotas[0].address);
-                formData.append("description", mascotas.mascotas[0].description);
-                formData.append("contact", mascotas.mascotas[0].contact);
-                formData.append("userID", user.user._id);
-                //formData.append("qrID", "");
-                formData.append("reward", mascotas.mascotas[0].reward);
                 formData.append("imageID", selectedFile);
 
                 const resultado = await axios.post(`${process.env.REACT_APP_API_URL}api/pets/createPet`, formData, {
@@ -79,7 +58,29 @@ function MascotasForm({ mascotas }) {
                 // AsyncStorage.setItem('user', JSON.stringify(resultado.data));
                 console.log(resultado);
                 setLoading(false);
-            }
+            // } 
+            // else {
+            //     formData.append("name",  mascotas.mascotas[0].name);
+            //     formData.append("type", mascotas.mascotas[0].type);
+            //     formData.append("race", mascotas.mascotas[0].race);
+            //     formData.append("address", mascotas.mascotas[0].address);
+            //     formData.append("description", mascotas.mascotas[0].description);
+            //     formData.append("contact", mascotas.mascotas[0].contact);
+            //     formData.append("userID", user.user._id);
+            //     formData.append("qrID", null);
+            //     formData.append("reward", mascotas.mascotas[0].reward);
+            //     formData.append("imageID", selectedFile);
+
+            //     const resultado = await axios.post(`${process.env.REACT_APP_API_URL}api/pets/createPet`, formData, {
+            //         headers: {
+            //             // 'Authorization': `Basic ${token}`,
+            //             'Content-Type': 'multipart/form-data'
+            //         },
+            //     });
+            //     // AsyncStorage.setItem('user', JSON.stringify(resultado.data));
+            //     console.log(resultado);
+            //     setLoading(false);
+            // }
 
 
 

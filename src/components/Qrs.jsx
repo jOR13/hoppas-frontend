@@ -10,12 +10,13 @@ function Qrs() {
     const [user, setUser] = useState({})
     const [pets, setPets] = useState({})
     const [update, setUpdate] = useState(false)
+    const [selected, setSelected] = useState({})
 
     useEffect(() => {
         setUser(JSON.parse(localStorage.getItem("session")));
         getQrs()
         getPets()
-    }, [])
+    }, [update])
 
     const getQrs = async () => {
         try {
@@ -37,31 +38,94 @@ function Qrs() {
             const u = JSON.parse(localStorage.getItem("session"));
             const respuesta = await axios.get(url + 'api/pets/');
             const res = respuesta.data.data;
-            console.log(respuesta.data.data)
+            // console.log(respuesta.data.data)
             const filtro = res.filter((f) => f.userID ? f.userID._id === u.user._id : null)
-            console.log(filtro);
-            setPets(filtro);
+            const filtro2 = filtro.filter((f) => f.qrID ? f.qrID === "null" : null)
+            console.log(filtro2);
+            setPets(filtro2);
         } catch (error) {
             console.error(error);
         }
     }
 
-    const updateQR = async () => {
+    const agregarQR = async () => {
         // console.log(user)
         if (qrCode != "") {
             try {
                 const data = {
-                    status: "signed",
+                    status: "asigned",
                     userID: user.user._id
                 }
-                const res = await axios.put(url + 'api/qrs/' + qrCode, data);
-                console.log(res.data.data);
-                setUpdate(true)
-                getQrs()
+                const res = await axios.put(url + 'api/qrs/addqr/' + qrCode, data);
+                console.log(res);
+                setQrCode("")
+                setUpdate(!update)
+                // getQrs()
             } catch (error) {
                 console.error(error);
             }
         }
+    }
+
+    const updatePET = async (id) => {
+        // e.preventDefault();
+        console.log(selected)
+        if (selected != "empty" && selected !="" && selected !={}) {
+            try {
+                const data = {
+                    status: "vincular",
+                    mascotaID: selected
+                }
+
+                const res = await axios.put(url + 'api/qrs/' + id, data);
+                // console.log({ res });
+
+                const res2 = await axios.put(url + 'api/pets/' + selected, { qrID: id });
+                // console.log({ res2 });
+
+
+                setSelected("")
+                setQrCode("")
+                setUpdate(!update)
+                // getQrs()
+            } catch (error) {
+                console.error(error);
+            }
+        }else console.log("no se peude agregar")
+    }
+
+    const desvincularPET = async (qr) => {
+        // e.preventDefault();
+        console.log(qr)
+        const { _id, mascotaID } = qr;
+
+        try {
+            const data = {
+                status: "desvincular",
+                mascotaID: ""
+            }
+            const res = await axios.put(url + 'api/qrs/' + _id, data);
+            console.log(res)
+
+            const data2 = {
+                qrID: "null",
+            }
+
+            const res2 = await axios.put(url + 'api/pets/' + mascotaID._id, data2);
+            console.log({ res2 });
+
+            setQrCode("")
+            // setSelected("")
+            setUpdate(!update)
+            // getQrs()
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const onChangeValues = e => {
+        e.preventDefault();
+        setSelected(e.target.value)
     }
 
     return (
@@ -77,7 +141,7 @@ function Qrs() {
                         name="code"
                         onChange={(e) => setQrCode(e.target.value)}
                     />
-                        <button onClick={() => updateQR()} className="btn btn-outline-success rounded-pill ms-2 btn-sm">Agregar</button></div>
+                        <button onClick={() => agregarQR()} className="btn btn-outline-success rounded-pill ms-2 btn-sm">Agregar</button></div>
                 </div>
 
                 {qrs.length > 0 ? (
@@ -108,7 +172,7 @@ function Qrs() {
 
                                             <h3 className="h5">{qr.mascotaID.name}</h3>
                                             <div className="" style={{ backgroundColor: '#red' }}>
-                                                <button className="btn btn-outline-danger  btn-sm">Desvincular</button>
+                                                <button onClick={e => desvincularPET(qr)} className="btn btn-outline-danger  btn-sm">Desvincular</button>
                                             </div>
                                         </>
                                     ) :
@@ -126,17 +190,24 @@ function Qrs() {
 
                                                 />
                                                 {pets.length > 0 ?
-                                                    <select className="form-select mb-2" id="inputGroupSelect01">
-                                                        <option defaultValue>Choose...</option>
-                                                        {pets.length > 0 ? (
-                                                            pets.map((p) =>
-                                                                <option key={p._id}>{p.name}</option>
-                                                            )) : null
-                                                        }
-                                                    </select> :  <h1 style={{ color: 'tomato' }} className="spinner-border"></h1>}
-                                                <div className="" style={{ backgroundColor: '#red' }}>
-                                                    <button className="btn btn-outline-success  btn-sm">Vincular</button>
-                                                </div>
+                                                    <>
+                                                        <select onChange={e => onChangeValues(e)} className="form-select mb-2" id="inputGroupSelect01">
+                                                            <option value="empty" >Choose...</option>
+                                                            {pets.length > 0 ? (
+                                                                pets.map((p) =>
+                                                                    <option value={p._id} key={p._id}>{p.name}</option>
+                                                                )) : null
+                                                            }
+                                                        </select>
+                                                        <div className="" style={{ backgroundColor: '#red' }}>
+                                                            <button onClick={e => updatePET(qr._id)} className="btn btn-outline-success  btn-sm">Vincular</button>
+                                                        </div>
+                                                    </>
+                                                    : <>
+                                                        <h1 style={{ color: 'tomato' }} className="spinner-border"></h1>
+
+                                                    </>
+                                                }
                                             </>
                                         )}
 
