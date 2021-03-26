@@ -8,8 +8,8 @@ function PerfilMascota() {
   const [params] = useState(useParams());
   const [qr, setQR] = useState([]);
   const [parametros, setParametros] = useState([]);
-
   const [showMap, setShowMap] = useState(false);
+  const url = process.env.REACT_APP_API_URL;
 
   let options = {
     enableHighAccuracy: true,
@@ -52,21 +52,27 @@ function PerfilMascota() {
       today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     let dateTime = date + " " + time;
 
+    const data = {
+      longitude: long,
+      latitude: lat,
+      lastScan: dateTime
+    }
+
+
+    updateQRlocations(params.id, data)
 
 
 
+  }
 
-    // Metodos2.QrCoordenadas(params.id, lat, long, dateTime).then(
-    //   (response) => {
-    //     console.log(response);
-    //   },
-    //   (error) => {
-    //     const _content =
-    //       (error.response && error.response && error.response.data.message) ||
-    //       error.message ||
-    //       error.toString();
-    //   }
-    // );
+
+  const updateQRlocations = async (id, data) => {
+    try {
+      const res = await axios.put(url + 'api/qrs/' + id, data);
+      console.log({ res });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   function error(error) {
@@ -144,10 +150,10 @@ function PerfilMascota() {
           ) : (
 
             <>
-              <div className="col-md-12 d-flex mt-5 justify-content-center"> 
-              <h4 className="alert alert-danger" role="alert">
-                El peril de este QR no existe o no tiene ninguna mascota asignada
-              </h4>
+              <div className="col-md-12 d-flex mt-5 justify-content-center">
+                <h4 className="alert alert-danger" role="alert">
+                  El peril de este QR no existe o no tiene ninguna mascota asignada
+                </h4>
               </div>
               <div className="col-md-12 mb-3 d-flex justify-content-center">
                 <img src="https://image.freepik.com/vector-gratis/plantilla-web-error-404-gato-gracioso_23-2147763339.jpg" />
