@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import QRCode from "qrcode.react";
 import { UpcScan } from "react-bootstrap-icons";
+import { Link } from "react-router-dom";
 
 function Qrs() {
     const url = process.env.REACT_APP_API_URL;
@@ -70,7 +71,7 @@ function Qrs() {
     const updatePET = async (id) => {
         // e.preventDefault();
         console.log(selected)
-        if (selected != "empty" && selected !="" && selected !={}) {
+        if (selected != "empty" && selected != "" && selected != {}) {
             try {
                 const data = {
                     status: "vincular",
@@ -91,7 +92,7 @@ function Qrs() {
             } catch (error) {
                 console.error(error);
             }
-        }else console.log("no se peude agregar")
+        } else console.log("no se peude agregar")
     }
 
     const desvincularPET = async (qr) => {
@@ -148,11 +149,11 @@ function Qrs() {
                     qrs.map((qr) =>
                         <div key={qr._id} className="col-sm-6 col-md-3 align-self-center justify-content-center d-flex ">
                             <div className="ms-1 me-1 card border-0 shadow mt-2 mb-5" style={{ borderRadius: '20px', maxHeight: '350px', maxWidth: '300px', minWidth: '170px' }} >
-                                <div className="card-body text-center d-grid gap-2 d-md-block">
+                                <div className="card-body text-center d-grid gap-2 d-md-block position-relative">
                                     {qr.mascotaID ? (
                                         <>
                                             <QRCode
-                                                className="card-img-top mt-3 "
+                                                className="card-img-top mt-3 " 
                                                 value={url + qr._id}
                                                 size={200}
                                                 bgColor={"#ffffff"}
@@ -169,10 +170,17 @@ function Qrs() {
                                                     excavate: true,
                                                 }}
                                             />
-
-                                            <h3 className="h5">{qr.mascotaID.name}</h3>
+                                            <h1 style={{ color: '#00A400', right: 0, top: 0 }} className="spinner-grow mt-2 position-absolute"></h1>
+                                            <h3 className="h5 mt-2 ">{qr.mascotaID.name}</h3>
                                             <div className="" style={{ backgroundColor: '#red' }}>
                                                 <button onClick={e => desvincularPET(qr)} className="btn btn-outline-danger  btn-sm">Desvincular</button>
+                                                <Link
+                                                    className="btn btn-outline-info  btn-sm"
+
+                                                    to={`./qr/${qr._id}`}
+                                                >
+                                                    Vista previa
+                                                </Link>
                                             </div>
                                         </>
                                     ) :
@@ -191,7 +199,7 @@ function Qrs() {
                                                 />
                                                 {pets.length > 0 ?
                                                     <>
-                                                        <select onChange={e => onChangeValues(e)} className="form-select mb-2" id="inputGroupSelect01">
+                                                        <select onChange={e => onChangeValues(e)} className="form-select mb-2 mt-2" id="inputGroupSelect01">
                                                             <option value="empty" >Choose...</option>
                                                             {pets.length > 0 ? (
                                                                 pets.map((p) =>
@@ -204,7 +212,7 @@ function Qrs() {
                                                         </div>
                                                     </>
                                                     : <>
-                                                        <h1 style={{ color: 'tomato' }} className="spinner-border"></h1>
+
 
                                                     </>
                                                 }
