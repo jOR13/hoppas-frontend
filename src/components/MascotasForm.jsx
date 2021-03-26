@@ -22,49 +22,66 @@ function MascotasForm({ mascotas }) {
     const [direccion, setDireccion] = useState("");
     const [contacto, setContacto] = useState("");
 
-
     useEffect(() => {
         setUser(JSON.parse(localStorage.getItem("session")));
         if (mascotas.editando) {
             setNombreM('sdsdsdsd');
         }
     }, [])
-
-
-
     // console.log(props)
     console.log(mascotas)
-
-    const registarUser = async (values) => {
-
+    const registarMascota = async (values) => {
         const { name, type, race, address, description, contact, userID, qrID, reward } = values;
         console.log(selectedFile)
         console.log(values)
-
         let formData = new FormData();
 
-        formData.append("name", name);
-        formData.append("type", type);
-        formData.append("race", race);
-        formData.append("address", address);
-        formData.append("description", description);
-        formData.append("contact", contact);
-        formData.append("userID", user.user._id);
-        //formData.append("qrID", "");
-        formData.append("reward", reward);
-        formData.append("imageID", selectedFile);
-
         try {
-            const resultado = await axios.post(`${process.env.REACT_APP_API_URL}api/pets/createPet`, formData, {
-                headers: {
-                    // 'Authorization': `Basic ${token}`,
-                    'Content-Type': 'multipart/form-data'
-                },
-            });
+            if (mascotas.editando) {
+                formData.append("name", name);
+                formData.append("type", type);
+                formData.append("race", race);
+                formData.append("address", address);
+                formData.append("description", description);
+                formData.append("contact", contact);
+                formData.append("userID", user.user._id);
+                //formData.append("qrID", "");
+                formData.append("reward", reward);
+                formData.append("imageID", selectedFile);
 
-            // AsyncStorage.setItem('user', JSON.stringify(resultado.data));
-            console.log(resultado);
-            setLoading(false);
+                const resultado = await axios.put(`${process.env.REACT_APP_API_URL}api/pets/createPet`, formData, {
+                    headers: {
+                        // 'Authorization': `Basic ${token}`,
+                        'Content-Type': 'multipart/form-data'
+                    },
+                });
+                // AsyncStorage.setItem('user', JSON.stringify(resultado.data));
+                console.log(resultado);
+                setLoading(false);
+            } else {
+                formData.append("name",  mascotas.mascotas[0].name);
+                formData.append("type", mascotas.mascotas[0].type);
+                formData.append("race", mascotas.mascotas[0].race);
+                formData.append("address", mascotas.mascotas[0].address);
+                formData.append("description", mascotas.mascotas[0].description);
+                formData.append("contact", mascotas.mascotas[0].contact);
+                formData.append("userID", user.user._id);
+                //formData.append("qrID", "");
+                formData.append("reward", mascotas.mascotas[0].reward);
+                formData.append("imageID", selectedFile);
+
+                const resultado = await axios.post(`${process.env.REACT_APP_API_URL}api/pets/createPet`, formData, {
+                    headers: {
+                        // 'Authorization': `Basic ${token}`,
+                        'Content-Type': 'multipart/form-data'
+                    },
+                });
+                // AsyncStorage.setItem('user', JSON.stringify(resultado.data));
+                console.log(resultado);
+                setLoading(false);
+            }
+
+
 
         } catch (error) {
             console.log(error);
@@ -88,7 +105,7 @@ function MascotasForm({ mascotas }) {
         }),
         onSubmit: values => {
             setLoading(true);
-            registarUser(values);
+            registarMascota(values);
         },
     });
 
@@ -148,7 +165,7 @@ function MascotasForm({ mascotas }) {
                                 <div className="validar">{formik.errors.race}</div>
                             ) : null}
                         </div>
-                        <div className="col-6">
+                        <div className="col-md-6">
                             <label className="form-label"><House className="iconos" /> Direccion</label>
                             <input
                                 className="border-info rounded-pill  mb-2   form-control"
@@ -233,13 +250,13 @@ function MascotasForm({ mascotas }) {
                                 type="submit"
                                 disabled={false}
                             >
-                                {mascotas.editando ? <b>Editar</b>  : <b>Registrar</b>}  < ArrowRight />
+                                {mascotas.editando ? <b>Editar</b> : <b>Registrar</b>}  < ArrowRight />
                             </button>) : <button
                                 className="btn btn-outline-dark form-control  rounded-pill"
                                 type="submit"
                                 disabled={true}
                             >
-                                {mascotas.editando ? <b>Editar</b>  : <b>Registrar</b>}  < ArrowRight />
+                                {mascotas.editando ? <b>Editar</b> : <b>Registrar</b>}  < ArrowRight />
                             </button>}
                         </div>
                     </form>

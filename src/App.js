@@ -15,6 +15,7 @@ import {
 } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Registro from "./components/Registro";
+import PerfilMascota from "./components/Public/PerfilMascota";
 
 function App() {
   const [value, setValue] = useState(
@@ -99,29 +100,21 @@ function App() {
                       {value ? (
                         <div className="d-flex align-items-center">
                           {/* <Avatar alt="" src={url + value.user.image} /> */}
-                          <Avatar alt="" src={ value.user.image} />
+                          <Avatar alt="" src={value.user.image} />
                           <b className="ms-2 mb-0">
                             {value.user.fullName.toUpperCase()}
                           </b>
                         </div>
                       ) : null}
                     </a>
-                    <ul
-                      className="dropdown-menu dropdown-menu-dark"
-                    >
+                    <ul className="dropdown-menu dropdown-menu-dark">
                       <li>
-                        <NavLink
-                          to={"/Profile"}
-                          className="dropdown-item"
-                        >
+                        <NavLink to={"/Profile"} className="dropdown-item">
                           Perfil
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink
-                          to={"/Mesages"}
-                          className="dropdown-item"
-                        >
+                        <NavLink to={"/Mesages"} className="dropdown-item">
                           Mensajes
                         </NavLink>
                       </li>
@@ -129,7 +122,8 @@ function App() {
                         <NavLink
                           onClick={(e) => cerrarSesion(e)}
                           to={"/"}
-                          className="dropdown-item" style={{ backgroundColor: 'transparent'}}
+                          className="dropdown-item"
+                          style={{ backgroundColor: "transparent" }}
                         >
                           Cerrar sesion
                         </NavLink>
@@ -148,6 +142,7 @@ function App() {
             <Route exact path="/Mascotas" component={Mascotas} />
             <Route exact path="/MascotasForm" component={MascotasForm} />
             <Route exact path="/Qrs" component={Qrs} />
+            <Route exact path="/qr/:id" component={PerfilMascota} />
           </Switch>
         </Router>
       </UserContext.Provider>
