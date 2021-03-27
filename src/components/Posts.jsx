@@ -11,7 +11,11 @@ function Posts() {
 
     useEffect(() => {
         getPosts()
+
     }, [])
+
+
+ 
 
 
     const getPosts = async () => {
@@ -42,7 +46,7 @@ function Posts() {
                         </div>
                     </form>
                 </div>
-            {posts.length >= 0 ? (
+                {posts.length >= 0 ? (
                     <div className="col-md-12">
                         {posts.map((p, i) =>
                             <div key={i} className="card mt-5  justify-content-center text-center" style={{ width: '18rem' }}>
@@ -55,7 +59,7 @@ function Posts() {
                             </div>
                         )}
                     </div>
-                ): null}
+                ) : null}
             </div>
         </div>
     )

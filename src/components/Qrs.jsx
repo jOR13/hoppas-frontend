@@ -153,7 +153,7 @@ function Qrs() {
                                     {qr.mascotaID ? (
                                         <>
                                             <QRCode
-                                                className="card-img-top mt-3 " 
+                                                className="card-img-top mt-3 "
                                                 value={url + qr._id}
                                                 size={200}
                                                 bgColor={"#ffffff"}
@@ -173,10 +173,9 @@ function Qrs() {
                                             <h1 style={{ color: '#00A400', right: 0, top: 0 }} className="spinner-grow mt-2 position-absolute"></h1>
                                             <h3 className="h5 mt-2 ">{qr.mascotaID.name}</h3>
                                             <div className="" style={{ backgroundColor: '#red' }}>
-                                                <button onClick={e => desvincularPET(qr)} className="btn btn-outline-danger  btn-sm">Desvincular</button>
+                                                <button onClick={e => desvincularPET(qr)} className="btn btn-outline-danger btn-sm">Desvincular</button>{" "}
                                                 <Link
-                                                    className="btn btn-outline-info  btn-sm"
-
+                                                    className="btn btn-outline-info btn-sm"
                                                     to={`./qr/${qr._id}`}
                                                 >
                                                     Vista previa

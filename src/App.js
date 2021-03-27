@@ -16,6 +16,7 @@ import {
 import Avatar from "@material-ui/core/Avatar";
 import Registro from "./components/Registro";
 import PerfilMascota from "./components/Public/PerfilMascota";
+// import axios from "axios";
 
 function App() {
   const [value, setValue] = useState(
@@ -64,7 +65,7 @@ function App() {
                 id="navbarSupportedContent"
               >
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                  {value.user === undefined ? (
+                  {value ? (
                     <li className="nav-item">
                       <NavLink to={"/"} className="nav-link">
                         Login

@@ -8,22 +8,29 @@ function Mascotas() {
 
     const [mascotas, setMascotas] = useState({});
     const [editMascota, setEditMascota] = useState([]);
+    const [update, setUpdate] = useState(false);
     const inputEl = useRef(null);
 
     useEffect(() => {
         getMascotas();
-    }, [])
+    }, [update])
 
     const editarMascota = (id) => {
         inputEl.current.scrollIntoView();
         const filtro = mascotas.filter((m) => m._id === id);
-        setEditMascota({mascotas: filtro, editando: true});
+        setEditMascota({ mascotas: filtro, editando: true });
     }
 
     const getMascotas = async () => {
         const respuesta = await axios.get(process.env.REACT_APP_API_URL + "api/pets/");
         setMascotas(respuesta.data.data)
         // console.log(respuesta.data.data)
+    }
+
+    const eliminatMascota = async (id) => {
+        const respuesta = await axios.delete(process.env.REACT_APP_API_URL + "api/pets/" + id);
+        console.log(respuesta)
+        setUpdate(!update)
     }
 
 
@@ -36,8 +43,8 @@ function Mascotas() {
                         <button className="btn btn-outline-dark rounded-pill mb-2 mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFormPets" aria-expanded="false" aria-controls="collapseFormPets">
                             Agregar <ArrowRight />
                         </button>
-                        <div  className="collapse" id="collapseFormPets">
-                            <div ref={inputEl}  className="card card-body">
+                        <div className="collapse" id="collapseFormPets">
+                            <div ref={inputEl} className="card card-body">
                                 <MascotasForm mascotas={editMascota} />
                             </div>
                         </div>
@@ -52,7 +59,7 @@ function Mascotas() {
                                     <h3 className="h5">{m.name}</h3>
                                     <div className="" style={{ backgroundColor: '#red' }}>
                                         <button onClick={() => editarMascota(m._id)} className="btn btn-outline-secondary  btn-sm" data-bs-toggle="collapse" data-bs-target="#collapseFormPets">Editar</button>
-                                        <button  className="btn btn-outline-danger  btn-sm">Eliminar</button>
+                                        <button onClick={(e) => eliminatMascota(m._id)} className="btn btn-outline-danger  btn-sm">Eliminar</button>
                                     </div>
                                 </div>
                             </div>

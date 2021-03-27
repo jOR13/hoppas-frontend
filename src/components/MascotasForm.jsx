@@ -21,13 +21,14 @@ function MascotasForm({ mascotas }) {
     const [descripcion, setDescripcion] = useState("");
     const [direccion, setDireccion] = useState("");
     const [contacto, setContacto] = useState("");
+    const [update, setUpdate] = useState(false);
 
     useEffect(() => {
         setUser(JSON.parse(localStorage.getItem("session")));
         if (mascotas.editando) {
             setNombreM('sdsdsdsd');
         }
-    }, [])
+    }, [update])
     // console.log(props)
     console.log(mascotas)
     const registarMascota = async (values) => {
@@ -38,26 +39,27 @@ function MascotasForm({ mascotas }) {
 
         try {
             // if (mascotas.editando) {
-                formData.append("name", name);
-                formData.append("type", type);
-                formData.append("race", race);
-                formData.append("address", address);
-                formData.append("description", description);
-                formData.append("contact", contact);
-                formData.append("userID", user.user._id);
-                formData.append("qrID", null);
-                formData.append("reward", reward);
-                formData.append("imageID", selectedFile);
+            formData.append("name", name);
+            formData.append("type", type);
+            formData.append("race", race);
+            formData.append("address", address);
+            formData.append("description", description);
+            formData.append("contact", contact);
+            formData.append("userID", user.user._id);
+            formData.append("qrID", null);
+            formData.append("reward", reward);
+            formData.append("imageID", selectedFile);
 
-                const resultado = await axios.post(`${process.env.REACT_APP_API_URL}api/pets/createPet`, formData, {
-                    headers: {
-                        // 'Authorization': `Basic ${token}`,
-                        'Content-Type': 'multipart/form-data'
-                    },
-                });
-                // AsyncStorage.setItem('user', JSON.stringify(resultado.data));
-                console.log(resultado);
-                setLoading(false);
+            const resultado = await axios.post(`${process.env.REACT_APP_API_URL}api/pets/createPet`, formData, {
+                headers: {
+                    // 'Authorization': `Basic ${token}`,
+                    'Content-Type': 'multipart/form-data'
+                },
+            });
+            // AsyncStorage.setItem('user', JSON.stringify(resultado.data));
+            console.log(resultado);
+            setLoading(false);
+            setUpdate(!update)
             // } 
             // else {
             //     formData.append("name",  mascotas.mascotas[0].name);

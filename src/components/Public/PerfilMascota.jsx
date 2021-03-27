@@ -23,8 +23,12 @@ function PerfilMascota() {
     console.log(params.id)
     navigator.geolocation.getCurrentPosition(success, error, options);
     getQR(params.id);
+
+   
+
   }, []);
 
+ 
 
   function success(position) {
     let coordenadas = position.coords;
@@ -92,7 +96,9 @@ function PerfilMascota() {
 
   return (
     <>
+
       <div className="container">
+
         <div className="row">
 
           {qr.mascotaID ? (
@@ -105,9 +111,9 @@ function PerfilMascota() {
 
               <div className="col-md-12 d-flex justify-content-center mt-5">
 
-                <div className="card mb-5">
+                <div className="card border-3 mb-5">
                   <img
-                    className="align-self-sm-center align-self-center  card-img-top w-50"
+                    className="align-self-sm-center align-self-center mt-5 mb-4 shape-inner circle card-img-top w-50"
                     src={process.env.REACT_APP_API_URL + qr.mascotaID.imageID}
                     alt="Card image cap"
                   />
@@ -140,11 +146,28 @@ function PerfilMascota() {
                     <small className="text-muted">Last updated 3 mins ago</small>
                   </p> */}
                   </div>
-                  <button className="btn btn-outline-success btn-sm mb-2">
+
+                  <a className="btn btn-outline-success btn-sm m-5 mb-2"
+                    href="https://api.whatsapp.com/send?phone=+526566763854"
+                    target="_blank"
+                  >
                     Contactarme
-                  </button>
+                  </a>
+                  {showMap ? (
+                    <Map
+                      parametros={parametros}
+                      // googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&key=${process.env.REACT_APP_MAP}`}
+                      googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&key=${credentials.mapsKey}`}
+                      containerElement={<div style={{ height: 600 }} />}
+                      mapElement={<div style={{ height: 600, }} />}
+                      loadingElement={<p className="mb-5">Cargando</p>}
+                    />
+                  ) : null}
+
                 </div>
+
               </div>
+
             </>
 
           ) : (
@@ -161,16 +184,6 @@ function PerfilMascota() {
             </>
           )}
 
-          {showMap ? (
-            <Map
-              parametros={parametros}
-              // googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&key=${process.env.REACT_APP_MAP}`}
-              googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&key=${credentials.mapsKey}`}
-              containerElement={<div style={{ height: "400px" }} />}
-              mapElement={<div style={{ height: "600px" }} />}
-              loadingElement={<p className="mb-5">Cargando</p>}
-            />
-          ) : null}
 
         </div>
       </div>
