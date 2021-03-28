@@ -22,9 +22,7 @@ function Registro(props) {
     const [errorConsulta, setErrorConsulta] = useState(null);
     const [btnDisable, setBtnDisable] = useState(true);
 
-    const url = "http://localhost:3001/";
-
-
+    const url = process.env.REACT_APP_API_URL;
     //lee los inputs
     // const actualizarState = (e) => {
     //     setDatos({
@@ -52,7 +50,6 @@ function Registro(props) {
         formData.append("password", password);
         formData.append("image", selectedFile);
         formData.append("SignUpType", "Manual");
-
 
 
         try {

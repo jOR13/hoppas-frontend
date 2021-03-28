@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 // import { Camera } from '@material-ui/icons';
 import { Camera, ArrowRight } from "react-bootstrap-icons";
 import axios from 'axios';
+import * as serviceWorker from './client';
 
 function Posts() {
 
@@ -11,7 +12,6 @@ function Posts() {
 
     useEffect(() => {
         getPosts()
-
     }, [])
 
 
