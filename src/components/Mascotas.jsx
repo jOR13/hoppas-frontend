@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
 import axios from 'axios';
 import MascotasForm from './MascotasForm';
 import ArrowRight from '@material-ui/icons/ArrowRight';
-
+import { UserContext } from "../context/UserContext";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 function Mascotas() {
 
@@ -11,9 +13,12 @@ function Mascotas() {
     const [update, setUpdate] = useState(false);
     const inputEl = useRef(null);
 
+    const { value, setValue } = useContext(UserContext);
+
     useEffect(() => {
+
         getMascotas();
-    }, [update])
+    }, [value])
 
     const editarMascota = (id) => {
         inputEl.current.scrollIntoView();
@@ -22,20 +27,35 @@ function Mascotas() {
     }
 
     const getMascotas = async () => {
+        const u = JSON.parse(localStorage.getItem("session"));
         const respuesta = await axios.get(process.env.REACT_APP_API_URL + "api/pets/");
-        setMascotas(respuesta.data.data)
-        // console.log(respuesta.data.data)
+        const filtro = respuesta.data.data.filter((m) => m.userID ? m.userID._id === u.user._id : null);
+        setMascotas(filtro);
+        console.log(u.user._id)
     }
 
     const eliminatMascota = async (id) => {
         const respuesta = await axios.delete(process.env.REACT_APP_API_URL + "api/pets/" + id);
         console.log(respuesta)
         setUpdate(!update)
+        setValue({ ...value, update: true })
+        if (respuesta.status === 200) {
+            toast.warn('Se ha eliminado con exito', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+            });
+        }
     }
 
 
     return (
         <div className="container">
+            <ToastContainer />
             <div className="row">
                 <div className="col-md-12">
                     <div className="mt-5">

@@ -148,10 +148,11 @@ function Qrs() {
                 {qrs.length > 0 ? (
                     qrs.map((qr) =>
                         <div key={qr._id} className="col-sm-6 col-md-3 align-self-center justify-content-center d-flex ">
-                            <div className="ms-1 me-1 card border-0 shadow mt-2 mb-5" style={{ borderRadius: '20px', maxHeight: '350px', maxWidth: '300px', minWidth: '170px' }} >
+                            <div className="ms-1 me-1 card border-0 shadow mt-2 mb-5" style={{ borderRadius: '20px', maxHeight: '380px', maxWidth: '310px', minWidth: '170px' }} >
                                 <div className="card-body text-center d-grid gap-2 d-md-block position-relative">
                                     {qr.mascotaID ? (
                                         <>
+                                        <b>{qr.code}</b>
                                             <QRCode
                                                 className="card-img-top mt-3 "
                                                 value={url + qr._id}
@@ -185,6 +186,7 @@ function Qrs() {
                                     ) :
                                         (
                                             <>
+                                               <b>{qr.code}</b>
                                                 <QRCode
                                                     className="card-img-top mt-3 "
                                                     value={url + qr._id}

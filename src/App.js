@@ -11,12 +11,12 @@ import {
   Switch,
   Route,
   NavLink,
+  Redirect,
   BrowserRouter as Router,
 } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Registro from "./components/Registro";
 import PerfilMascota from "./components/Public/PerfilMascota";
-// import axios from "axios";
 
 function App() {
   const [value, setValue] = useState(
@@ -65,28 +65,31 @@ function App() {
                 id="navbarSupportedContent"
               >
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                  {value ? (
+                  {!value ? (
                     <li className="nav-item">
                       <NavLink to={"/"} className="nav-link">
                         Login
                       </NavLink>
                     </li>
-                  ) : null}
-                  <li className="nav-item">
-                    <NavLink to={"/Posts"} className="nav-link">
-                      Inicio
-                    </NavLink>
-                  </li>
-                  <li className="nav-item">
-                    <NavLink to={"/Mascotas"} className="nav-link">
-                      DIspositivos
-                    </NavLink>
-                  </li>
-                  <li className="nav-item">
-                    <NavLink to={"/Qrs"} className="nav-link">
-                      Qrs
-                    </NavLink>
-                  </li>
+                  ) : (
+                    <>
+                      <li className="nav-item">
+                        <NavLink to={"/Posts"} className="nav-link">
+                          Inicio
+                        </NavLink>
+                      </li>
+                      <li className="nav-item">
+                        <NavLink to={"/Mascotas"} className="nav-link">
+                          DIspositivos
+                        </NavLink>
+                      </li>
+                      <li className="nav-item">
+                        <NavLink to={"/Qrs"} className="nav-link">
+                          Qrs
+                        </NavLink>
+                      </li>
+                    </>
+                  )}
                 </ul>
 
                 <ul className="navbar-nav ">
@@ -137,13 +140,22 @@ function App() {
           </nav>
           <Switch>
             <Route exact path="/" component={Login} />
-            <Route exact path="/Posts" component={Posts} />
             <Route exact path="/Registro" component={Registro} />
-            <Route exact path="/Profile" component={Profile} />
-            <Route exact path="/Mascotas" component={Mascotas} />
-            <Route exact path="/MascotasForm" component={MascotasForm} />
-            <Route exact path="/Qrs" component={Qrs} />
-            <Route exact path="/qr/:id" component={PerfilMascota} />
+            {!value ? (
+              <>
+                <Redirect to="/" />
+              </>
+            ) : (
+              <>
+                <Route exact path="/Posts" component={Posts} />
+
+                <Route exact path="/Profile" component={Profile} />
+                <Route exact path="/Mascotas" component={Mascotas} />
+                <Route exact path="/MascotasForm" component={MascotasForm} />
+                <Route exact path="/Qrs" component={Qrs} />
+                <Route exact path="/qr/:id" component={PerfilMascota} />
+              </>
+            )}
           </Switch>
         </Router>
       </UserContext.Provider>

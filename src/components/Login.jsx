@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import logo from "../assets/images/logo.png";
+import { ToastContainer } from 'react-toastify';
 import userImage from "../assets/images/user.png";
 import { ArrowRight, Facebook, Google } from "react-bootstrap-icons";
 import { UserContext } from "../context/UserContext";
@@ -114,6 +115,7 @@ function Login(props) {
 
   return (
     <div className="container">
+      <ToastContainer />
       <div className="row justify-content-center">
         <div className="col-lg-4 justify-content-center d-flex">
           <div className="card ms-2" style={{ marginTop: "8vh" }}>

@@ -1,38 +1,22 @@
 import React, { useState } from 'react'
-import { ArrowRight, PersonCircle, Envelope, House, Lock, Phone } from "react-bootstrap-icons";
+import { ArrowRight, PersonCircle, Envelope, House, Lock, Phone, EmojiAngry } from "react-bootstrap-icons";
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import axios from 'axios'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Registro(props) {
 
-    //Crear state
-    // const [datos, setDatos] = useState({
-    //     fullName: "",
-    //     email: "",
-    //     address: "",
-    //     phone: "",
-    //     password: ""
-    // });
     const [selectedFile, setSelectedFile] = useState(null);
     const [loading, setLoading] = useState(false);
     const [errorConsulta, setErrorConsulta] = useState(null);
     const [btnDisable, setBtnDisable] = useState(true);
 
     const url = process.env.REACT_APP_API_URL;
-    //lee los inputs
-    // const actualizarState = (e) => {
-    //     setDatos({
-    //         ...datos,
-    //         [e.target.name]: e.target.value,
-    //     });
-    // };
-
-    //extraer los valores
-    // const { fullName, email, address, phone, password } = datos;
 
 
     const registarUser = async (values) => {
@@ -55,22 +39,38 @@ function Registro(props) {
         try {
             const resultado = await axios.post(`${url}api/user/register`, formData, {
                 headers: {
-                    // 'Authorization': `Basic ${token}`,
                     'Content-Type': 'multipart/form-data'
                 },
             });
-
-            // AsyncStorage.setItem('user', JSON.stringify(resultado.data));
             console.log(resultado);
             setLoading(false);
             if (resultado.status === 200) {
+                toast.success('🥳¡Te has registrado con exito!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                });
                 props.history.push("/");
             }
+
 
         } catch (error) {
             console.log(error);
             setErrorConsulta(true);
             setLoading(false);
+            toast.error('Revice sus datos, hubo un error al tratar de registrarse. (' + error + ').', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+            });
         }
     }
 
@@ -93,6 +93,7 @@ function Registro(props) {
         onSubmit: values => {
             setLoading(true);
             registarUser(values);
+
         },
     });
 
@@ -100,7 +101,10 @@ function Registro(props) {
 
     return (
         <div className="container">
+            <ToastContainer />
+
             <div className="row justify-content-center">
+
                 <div className="col-lg-8 justify-content-center d-flex">
                     {!loading ? (<div className="card mb-5" style={{ marginTop: "6vh" }}>
                         <div className="text-center">
@@ -238,6 +242,7 @@ function Registro(props) {
                                         Registrar <ArrowRight />
                                     </button>}
                                 </div>
+                                {/* <button onClick={ toast("¡Te has registrado con exito!")}>Notify!</button> */}
 
                             </form>
                         </div>

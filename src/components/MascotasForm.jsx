@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { ArrowRight, PersonCircle, Cash, House, JournalText, Asterisk, CircleHalf, Phone } from "react-bootstrap-icons";
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
@@ -6,6 +6,9 @@ import axios from 'axios'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
+import { UserContext } from "../context/UserContext";
 
 function MascotasForm({ mascotas }) {
 
@@ -22,6 +25,7 @@ function MascotasForm({ mascotas }) {
     const [direccion, setDireccion] = useState("");
     const [contacto, setContacto] = useState("");
     const [update, setUpdate] = useState(false);
+    const { value, setValue } = useContext(UserContext);
 
     useEffect(() => {
         setUser(JSON.parse(localStorage.getItem("session")));
@@ -29,8 +33,8 @@ function MascotasForm({ mascotas }) {
             setNombreM('sdsdsdsd');
         }
     }, [update])
-    // console.log(props)
-    console.log(mascotas)
+
+
     const registarMascota = async (values) => {
         const { name, type, race, address, description, contact, userID, qrID, reward } = values;
         console.log(selectedFile)
@@ -58,7 +62,20 @@ function MascotasForm({ mascotas }) {
             });
             // AsyncStorage.setItem('user', JSON.stringify(resultado.data));
             console.log(resultado);
+            if (resultado.status === 200) {
+                setUpdate(!update)
+                toast.success('🥳¡Tu mascota se registro con exito!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                });
+            }
             setLoading(false);
+            setValue({ ...value, update: true })
             setUpdate(!update)
             // } 
             // else {
@@ -112,8 +129,11 @@ function MascotasForm({ mascotas }) {
         },
     });
 
+
+
     return (
         <div>
+            <ToastContainer />
             {!loading ? (<div className="card border-0">
                 <div className="card-body text-center">
                     <form className="row g-3" onSubmit={formik.handleSubmit}>
@@ -258,10 +278,12 @@ function MascotasForm({ mascotas }) {
                                 className="btn btn-outline-dark form-control  rounded-pill"
                                 type="submit"
                                 disabled={true}
+                                data-bs-toggle="collapse" data-bs-target="#collapseFormPets"  aria-controls="collapseFormPets"
                             >
                                 {mascotas.editando ? <b>Editar</b> : <b>Registrar</b>}  < ArrowRight />
                             </button>}
                         </div>
+                        {/* <button onClick={() => setValue({...value, update: true})}>state</button> */}
                     </form>
                 </div>
             </div >) : (<CircularProgress style={{ marginTop: "30vh", color: "aqua" }} />)
