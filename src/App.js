@@ -3,6 +3,7 @@ import Posts from "./components/Posts";
 import Profile from "./components/Profile";
 import Mascotas from "./components/Mascotas";
 import MascotasForm from "./components/MascotasForm";
+import RecuperarPass from "./components/RecuperarPass";
 import Qrs from "./components/Qrs";
 import "./App.css";
 import React, { useEffect, useState } from "react";
@@ -152,6 +153,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={Login} />
             <Route exact path="/Registro" component={Registro} />
+            <Route exact path="/RecuperarPass" component={RecuperarPass} />
             {!value ? (
               <>
                 <Redirect to="/" />
@@ -159,7 +161,6 @@ function App() {
             ) : (
               <>
                 <Route exact path="/Posts" component={Posts} />
-
                 <Route exact path="/Profile" component={Profile} />
                 <Route exact path="/Mascotas" component={Mascotas} />
                 <Route exact path="/MascotasForm" component={MascotasForm} />

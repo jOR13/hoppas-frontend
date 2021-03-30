@@ -229,10 +229,13 @@ function Login(props) {
                 </button>
               </div>
               <div className="mb-3">
+                <i><NavLink to={"/RecuperarPass"} >
+                  ¿Perdiste tu contraseña?
+                </NavLink></i>
 
                 <i><NavLink to={"/Registro"} >
                   Registrate
-                </NavLink>  Ó inicia con</i>
+                </NavLink>  Ó inicia con:</i>
               </div>
               <div className="mb-3">
 
