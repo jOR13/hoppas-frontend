@@ -17,22 +17,22 @@ import {
 import Avatar from "@material-ui/core/Avatar";
 import Registro from "./components/Registro";
 import PerfilMascota from "./components/Public/PerfilMascota";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [value, setValue] = useState(
     JSON.parse(localStorage.getItem("session"))
   );
 
-  const url = process.env.REACT_APP_API;
+  const url = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     // getter
     // setValue();
   }, []);
 
-  // console.log(value.user.image)
+  // console.log(value.user)
 
   const cerrarSesion = (e) => {
     localStorage.removeItem("session");
@@ -107,7 +107,15 @@ function App() {
                       {value ? (
                         <div className="d-flex align-items-center">
                           {/* <Avatar alt="" src={url + value.user.image} /> */}
-                          <Avatar alt="" src={value.user.image} />
+
+                          {/* <Avatar alt="" src={value.user.image} /> */}
+
+                          {value.user.SignUpType != "Manual" ? (
+                            <Avatar src={value.user.image} />
+                          ) : (
+                            <Avatar src={url + value.user.image} />
+                          )}
+
                           <b className="ms-2 mb-0">
                             {value.user.fullName.toUpperCase()}
                           </b>
