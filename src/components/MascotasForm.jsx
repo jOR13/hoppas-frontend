@@ -133,7 +133,6 @@ function MascotasForm({ mascotas }) {
 
     return (
         <div>
-            <ToastContainer />
             {!loading ? (<div className="card border-0">
                 <div className="card-body text-center">
                     <form className="row g-3" onSubmit={formik.handleSubmit}>

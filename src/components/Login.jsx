@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import logo from "../assets/images/logo.png";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import userImage from "../assets/images/user.png";
 import { ArrowRight, Facebook, Google } from "react-bootstrap-icons";
 import { UserContext } from "../context/UserContext";
@@ -38,76 +39,110 @@ function Login(props) {
   const login = async (e) => {
     e.preventDefault();
     setLoading(true);
-    let data = {
-      email: user,
-      password: pass,
-    };
-    try {
-      const resultado = await axios.post(url + "api/user/login", data, {
-        headers: {
-          // 'Authorization': `Basic ${token}`,
-          "Content-Type": "application/json",
-        },
+    if (user != "" && pass != "") {
+      let data = {
+        email: user,
+        password: pass,
+      };
+      try {
+        const resultado = await axios.post(url + "api/user/login", data, {
+          headers: {
+            // 'Authorization': `Basic ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        console.log(resultado)
+        if (resultado.status === 200 && resultado.data.error != "Usuario no encontrado") {
+          setValue(resultado.data);
+          console.log(resultado.data);
+          setLoading(false);
+          // setter
+          localStorage.setItem('session', JSON.stringify(resultado.data));
+          props.history.push("/Posts");
+        } else {
+          setPass("")
+          setUser("")
+          toast.warn('El usuario que ingresaste no existe, por favor registrate.', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+
+      } catch (error) {
+        toast.error('Ocurrio un error (' + error + ').', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+        });
+        console.log(error);
+      }
+    } else {
+      toast.error('Ingresa tu correo y contraseña', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
       });
-
-      setValue(resultado.data);
-      console.log(resultado.data);
-      setLoading(false);
-      // setter
-      localStorage.setItem('session', JSON.stringify(resultado.data));
-      props.history.push("/Posts");
-
-    } catch (error) {
-      console.log(error);
     }
   };
 
   const respuestaGoogle = async (respuesta) => {
     console.log(respuesta.profileObj)
     const datosGoogle = respuesta.profileObj;
-
-    const data = {
-      email: datosGoogle.email,
-      password: "default"
-    }
-
-
     try {
-      const res = await axios.post(url + "api/user/login", data, {
-        headers: {
-          // 'Authorization': `Basic ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      console.log(res)
-      if (res.error != 'null') {
-
-        setValue(res.data);
-        console.log(res.data);
-        setLoading(false);
-        // setter
-        localStorage.setItem('session', JSON.stringify(res.data));
-        props.history.push({
-          pathname: '/Profile'
-        });
-
-      } else {
-        props.history.push({
-          pathname: '/Profile',
-          datosGoogle: { datosGoogle }
-        });
-
+      const datos = {
+        email: datosGoogle.email,
+        password: "default",
+        fullName: datosGoogle.name,
+        address: '',
+        phone: '',
+        SignUpType: 'Google',
+        image: datosGoogle.imageUrl
       }
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}api/user/registerGoogle`, datos);
 
+      let data = {
+        email: datosGoogle.email,
+        password: "default",
+      };
+      if (res.data.error === "Email ya registrado" || res.status === 200) {
+        const resultado = await axios.post(url + "api/user/login", data, { headers: { "Content-Type": "application/json", } });
+        setValue(resultado.data);
+        setLoading(false);
+        localStorage.setItem('session', JSON.stringify(resultado.data));
+        console.log(resultado)
+        if (resultado.data.user.address = "" || resultado.data.user.phone === "") {
+          toast.warn('Faltan algunos datos de tu perfil, por favor actualizalos.', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+          });
+          // setTimeout(() => {
+          //   props.history.push("/Profile");
+          // }, 5000);
+        }
+
+        props.history.push("/Posts");
+      }
     } catch (error) {
-      console.log(error);
+      console.error(error)
     }
-
-
-
-
-
   }
   const respuestaFacebook = (respuesta) => {
     console.log(respuesta)
@@ -115,7 +150,6 @@ function Login(props) {
 
   return (
     <div className="container">
-      <ToastContainer />
       <div className="row justify-content-center">
         <div className="col-lg-4 justify-content-center d-flex">
           <div className="card ms-2" style={{ marginTop: "8vh" }}>
@@ -135,7 +169,7 @@ function Login(props) {
               </div>
               <div className="mb-3">
                 <input
-                  name="Pass"
+                  name={"Pass"}
                   className="border-info rounded-pill text-center mb-3 form-control"
                   type="password"
                   placeholder="Contraseña"

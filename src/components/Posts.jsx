@@ -14,7 +14,8 @@ import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ThumbUp from '@material-ui/icons/ThumbUp';
-import CardMedia from '@material-ui/core/CardMedia';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Posts() {
     const url = process.env.REACT_APP_API_URL;
@@ -39,7 +40,7 @@ function Posts() {
         try {
             const respuesta = await axios.get(url + 'api/posts/');
             // setPosts(respuesta.data.data);
-            const order = respuesta.data.data .sort((a, b) => a > b ? 1 : -1)
+            const order = respuesta.data.data.sort((a, b) => a > b ? 1 : -1)
             setPosts(order);
         } catch (error) {
             console.error(error);
@@ -137,6 +138,7 @@ function Posts() {
                                                     >
                                                         {p.message}
                                                     </Typography>
+                                                    <b><i>{p.date.replace("T", " ")}</i></b>
                                                     <div className="col-md-12">
                                                         <IconButton aria-label="add to favorites">
                                                             <ThumbUp />

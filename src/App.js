@@ -17,6 +17,8 @@ import {
 import Avatar from "@material-ui/core/Avatar";
 import Registro from "./components/Registro";
 import PerfilMascota from "./components/Public/PerfilMascota";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [value, setValue] = useState(
@@ -46,6 +48,7 @@ function App() {
         }}
       >
         <Router>
+          <ToastContainer />
           <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
               <a className="navbar-brand">HIPERGAS</a>

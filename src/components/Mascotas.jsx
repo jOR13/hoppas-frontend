@@ -55,7 +55,6 @@ function Mascotas() {
 
     return (
         <div className="container">
-            <ToastContainer />
             <div className="row">
                 <div className="col-md-12">
                     <div className="mt-5">

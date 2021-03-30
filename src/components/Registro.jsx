@@ -101,8 +101,6 @@ function Registro(props) {
 
     return (
         <div className="container">
-            <ToastContainer />
-
             <div className="row justify-content-center">
 
                 <div className="col-lg-8 justify-content-center d-flex">
