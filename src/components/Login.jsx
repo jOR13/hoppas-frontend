@@ -111,7 +111,7 @@ function Login(props) {
         SignUpType: 'Google',
         image: datosGoogle.imageUrl
       }
-      const res = await axios.post(`${process.env.REACT_APP_API_URL}api/user/registerGoogle`, datos);
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}api/user/registerExternal`, datos);
 
       let data = {
         email: datosGoogle.email,
@@ -124,7 +124,7 @@ function Login(props) {
         localStorage.setItem('session', JSON.stringify(resultado.data));
         console.log(resultado)
         if (resultado.data.user.address = "" || resultado.data.user.phone === "") {
-          toast.warn('Faltan algunos datos de tu perfil, por favor actualizalos.', {
+          toast.warn('Faltan algunos datos de tu perfil, seras redirigido a tu perfil por favor actualizalos.', {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -133,9 +133,9 @@ function Login(props) {
             draggable: true,
             progress: undefined,
           });
-          // setTimeout(() => {
-          //   props.history.push("/Profile");
-          // }, 5000);
+          setTimeout(() => {
+            props.history.push("/Profile");
+          }, 4500);
         }
 
         props.history.push("/Posts");
@@ -144,8 +144,50 @@ function Login(props) {
       console.error(error)
     }
   }
-  const respuestaFacebook = (respuesta) => {
-    console.log(respuesta)
+  const respuestaFacebook = async (datosFacebook) => {
+    console.log(datosFacebook)
+    try {
+      const datos = {
+        email: datosFacebook.email,
+        password: "default",
+        fullName: datosFacebook.name,
+        address: '',
+        phone: '',
+        SignUpType: 'Facebook',
+        image: datosFacebook.picture.data.url
+      }
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}api/user/registerExternal`, datos);
+
+      let data = {
+        email: datosFacebook.email,
+        password: "default",
+      };
+      if (res.data.error === "Email ya registrado" || res.status === 200) {
+        const resultado = await axios.post(url + "api/user/login", data, { headers: { "Content-Type": "application/json", } });
+        setValue(resultado.data);
+        setLoading(false);
+        localStorage.setItem('session', JSON.stringify(resultado.data));
+        console.log(resultado)
+        if (resultado.data.user.address = "" || resultado.data.user.phone === "") {
+          toast.warn('Faltan algunos datos de tu perfil, seras redirigido a tu perfil por favor actualizalos.', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+          });
+          setTimeout(() => {
+            props.history.push("/Profile");
+          }, 4500);
+        }
+
+        props.history.push("/Posts");
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (

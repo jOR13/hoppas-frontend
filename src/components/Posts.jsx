@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
-// import { Camera } from '@material-ui/icons';
-import { Camera, ArrowRight } from "react-bootstrap-icons";
+import { ArrowRight } from "react-bootstrap-icons";
 import axios from 'axios';
-import * as serviceWorker from './client';
+// import * as serviceWorker from './client';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
-import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
@@ -14,12 +12,11 @@ import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ThumbUp from '@material-ui/icons/ThumbUp';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 
 function Posts() {
     const url = process.env.REACT_APP_API_URL;
-
     const [selectedFile, setSelectedFile] = useState(null);
     const [posts, setPosts] = useState({})
     const [update, setUpdate] = useState(false)
@@ -28,42 +25,33 @@ function Posts() {
     const [btnDisable, setBtnDisable] = useState(true);
 
     useEffect(() => {
-        setUser(JSON.parse(localStorage.getItem("session")));
+        const u = JSON.parse(localStorage.getItem("session"))
+        setUser(u);
         getPosts()
     }, [update])
-
-
-
-
 
     const getPosts = async () => {
         try {
             const respuesta = await axios.get(url + 'api/posts/');
-            // setPosts(respuesta.data.data);
+            //setPosts(respuesta.data.data);
             const order = respuesta.data.data.sort((a, b) => a > b ? 1 : -1)
             setPosts(order);
+            console.log(order)
         } catch (error) {
             console.error(error);
         }
     }
 
-
     const postear = async (e) => {
         e.preventDefault();
-
-
-
         try {
             if (selectedFile != null) {
-
                 let formData = new FormData();
                 formData.append("userID", user.user._id);
                 formData.append("message", message);
                 formData.append("image", selectedFile);
-
                 const respuesta = await axios.post(url + 'api/posts/createPost', formData, {
                     headers: {
-                        // 'Authorization': `Basic ${token}`,
                         'Content-Type': 'multipart/form-data'
                     },
                 });
@@ -81,13 +69,10 @@ function Posts() {
                 setPosts(respuesta.data.data);
                 setUpdate(!update);
             }
-
         } catch (error) {
             console.error(error);
         }
-
     }
-
 
     return (
         <div className="container">
@@ -112,56 +97,51 @@ function Posts() {
                 </div>
                 {posts.length > 0 ? (
                     posts.map((p, i) =>
-                        <>
-                            <List key={i} className="mt-4" >
-                                <ListItem alignItems="flex-start">
-                                    <ListItemAvatar>
-                                        <Avatar src={url + p.userID.image} />
-                                    </ListItemAvatar>
+                        <List key={i} className="mt-4" >
+                            <ListItem alignItems="flex-start">
+                                <ListItemAvatar>
+                                    {p.userID.SignUpType != "Manual" ? <Avatar src={p.userID.image} /> : <Avatar src={url + p.userID.image} />}
+                                </ListItemAvatar>
+                                <div className="row">
+                                    {p.image ?
+                                        <div className="col-md-8">
+                                            <img className="card-img-top m-1" src={url + p.image} style={{ maxHeight: '600px', maxWidth: '600px' }} />
+                                        </div>
+                                        : null}
+                                    <div className="col-md-4">
+                                        <h6>{p.userID.fullName}</h6>
+                                    </div>
+                                    <div className="col-md-12">
+                                        <Typography
+                                            component="span"
+                                            variant="body2"
+                                            color="textPrimary"
+                                        >
+                                            {p.message}
+                                        </Typography>
+                                    </div>
+                                    <div className="col-md-12">
+                                        <p> <i>{p.date.replace("T", " ")}</i></p>
+                                    </div>
+                                    <div className="col-md-12">
+                                        <IconButton aria-label="add to favorites">
+                                            <ThumbUp />
+                                            {0}
+                                        </IconButton>
+                                        <IconButton aria-label="add like">
+                                            <FavoriteIcon />
+                                            {0}
+                                        </IconButton>
+                                    </div>
+                                </div>
 
-                                    <ListItemText
-                                        primary={p.userID.fullName}
-                                        secondary={
-                                            <>
+                            </ListItem>
+                            <Divider variant="inset" component="li" className="col-md-9" />
+                        </List>
 
-                                                <div className="row">
-                                                    {p.image ?
-                                                        <div className="col-md-12">
-                                                            <img className="card-img-top m-1" src={url + p.image} style={{ maxHeight: '600px', maxWidth: '600px' }} />
-                                                        </div>
-
-                                                        : null}
-                                                    <Typography
-                                                        component="span"
-                                                        variant="body2"
-                                                        color="textPrimary"
-                                                    >
-                                                        {p.message}
-                                                    </Typography>
-                                                    <b><i>{p.date.replace("T", " ")}</i></b>
-                                                    <div className="col-md-12">
-                                                        <IconButton aria-label="add to favorites">
-                                                            <ThumbUp />
-                                                            {0}
-                                                        </IconButton>
-                                                        <IconButton aria-label="add like">
-                                                            <FavoriteIcon />
-                                                            {0}
-                                                        </IconButton>
-                                                    </div>
-                                                </div>
-                                            </>
-                                        }
-                                    />
-
-                                </ListItem>
-                                <Divider variant="inset" component="li" className="col-md-9" />
-                            </List>
-                        </>
                     )) : null}
             </div>
         </div>
     )
 }
-
 export default Posts
