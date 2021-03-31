@@ -7,36 +7,36 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { UserContext } from "../context/UserContext";
 
 function MascotasForm({ mascotas }) {
 
     const [selectedFile, setSelectedFile] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [errorConsulta, setErrorConsulta] = useState(false);
-    const [btnDisable, setBtnDisable] = useState(true);
+    const [ setErrorConsulta] = useState(false);
+    const [setBtnDisable] = useState(true);
     const [user, setUser] = useState({});
-    const [nombreM, setNombreM] = useState("");
-    const [fotografia] = useState("");
-    const [tipo, setTipo] = useState("");
-    const [raza, setRaza] = useState("");
-    const [descripcion, setDescripcion] = useState("");
-    const [direccion, setDireccion] = useState("");
-    const [contacto, setContacto] = useState("");
+    const [nombreM] = useState("");
+    // const [fotografia] = useState("");
+    const [tipo] = useState("");
+    const [raza] = useState("");
+    const [descripcion ] = useState("");
+    const [direccion ] = useState("");
+    const [contacto] = useState("");
     const [update, setUpdate] = useState(false);
     const { value, setValue } = useContext(UserContext);
 
     useEffect(() => {
         setUser(JSON.parse(localStorage.getItem("session")));
-        if (mascotas.editando) {
-            setNombreM('sdsdsdsd');
-        }
+        // if (mascotas.editando) {
+        //     setNombreM('sdsdsdsd');
+        // }
     }, [update])
 
 
     const registarMascota = async (values) => {
-        const { name, type, race, address, description, contact, userID, qrID, reward } = values;
+        const { name, type, race, address, description, contact, reward } = values;
         console.log(selectedFile)
         console.log(values)
         let formData = new FormData();

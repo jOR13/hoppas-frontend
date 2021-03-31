@@ -4,7 +4,7 @@ import MascotasForm from './MascotasForm';
 import ArrowRight from '@material-ui/icons/ArrowRight';
 import { UserContext } from "../context/UserContext";
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 function Mascotas() {
 

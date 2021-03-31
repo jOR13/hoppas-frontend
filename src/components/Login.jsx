@@ -1,6 +1,6 @@
-import React, { useState, useContext, useEffect } from "react";
-import logo from "../assets/images/logo.png";
-import { ToastContainer, toast } from 'react-toastify';
+import React, { useState, useContext } from "react";
+// import logo from "../assets/images/logo.png";
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import userImage from "../assets/images/user.png";
 import { ArrowRight, Facebook, Google } from "react-bootstrap-icons";
@@ -11,10 +11,10 @@ import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
 function Login(props) {
 
-  const { value, setValue } = useContext(UserContext);
+  const {  setValue } = useContext(UserContext);
   const [user, setUser] = useState("");
   const [pass, setPass] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [ setLoading] = useState(false);
 
   // useEffect(() => {
   //   console.log(process.env.REACT_APP_API_URL)
@@ -39,7 +39,7 @@ function Login(props) {
   const login = async (e) => {
     e.preventDefault();
     setLoading(true);
-    if (user != "" && pass != "") {
+    if (user !== "" && pass !== "") {
       let data = {
         email: user,
         password: pass,
@@ -52,7 +52,7 @@ function Login(props) {
           },
         });
         console.log(resultado)
-        if (resultado.status === 200 && resultado.data.error != "Usuario no encontrado") {
+        if (resultado.status === 200 && resultado.data.error !== "Usuario no encontrado") {
           setValue(resultado.data);
           console.log(resultado.data);
           setLoading(false);
@@ -123,7 +123,7 @@ function Login(props) {
         setLoading(false);
         localStorage.setItem('session', JSON.stringify(resultado.data));
         console.log(resultado)
-        if (resultado.data.user.address = "" || resultado.data.user.phone === "") {
+        if (resultado.data.user.address === "" || resultado.data.user.phone === "") {
           toast.warn('Faltan algunos datos de tu perfil, seras redirigido a tu perfil por favor actualizalos.', {
             position: "top-right",
             autoClose: 5000,
@@ -168,7 +168,7 @@ function Login(props) {
         setLoading(false);
         localStorage.setItem('session', JSON.stringify(resultado.data));
         console.log(resultado)
-        if (resultado.data.user.address = "" || resultado.data.user.phone === "") {
+        if (resultado.data.user.address === "" || resultado.data.user.phone === "") {
           toast.warn('Faltan algunos datos importantes de tu cuenta, seras redirigido a tu perfil por favor actualizalos.', {
             position: "top-right",
             autoClose: 5000,

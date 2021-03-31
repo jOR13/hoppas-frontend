@@ -22,12 +22,12 @@ function Posts() {
     const [update, setUpdate] = useState(false)
     const [user, setUser] = useState({});
     const [message, setMessage] = useState('');
-    const [btnDisable, setBtnDisable] = useState(true);
+    const [ setBtnDisable] = useState(true);
 
     useEffect(() => {
         const u = JSON.parse(localStorage.getItem("session"))
         setUser(u);
-        getPosts()
+        getPosts();
     }, [update])
 
     const getPosts = async () => {
@@ -45,7 +45,7 @@ function Posts() {
     const postear = async (e) => {
         e.preventDefault();
         try {
-            if (selectedFile != null) {
+            if (selectedFile !== null) {
                 let formData = new FormData();
                 formData.append("userID", user.user._id);
                 formData.append("message", message);
@@ -100,7 +100,7 @@ function Posts() {
                         <List key={i} className="mt-4" >
                             <ListItem alignItems="flex-start">
                                 <ListItemAvatar>
-                                    {p.userID.SignUpType != "Manual" ? <Avatar src={p.userID.image} /> : <Avatar src={url + p.userID.image} />}
+                                    {p.userID.SignUpType !== "Manual" ? <Avatar src={p.userID.image} /> : <Avatar src={url + p.userID.image} />}
                                 </ListItemAvatar>
                                 <div className="row">
 
@@ -109,7 +109,7 @@ function Posts() {
                                     </div>
                                     {p.image ?
                                         <div className="col-md-12">
-                                            <img className="card-img-top rounded-3 m-1" src={url + p.image} style={{ maxHeight: '600px', maxWidth: '600px' }} />
+                                            <img className="card-img-top rounded-3 m-1" alt="" src={url + p.image} style={{ maxHeight: '600px', maxWidth: '600px' }} />
                                         </div>
                                         : null}
                                     <div className="col-md-12">

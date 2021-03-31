@@ -18,7 +18,7 @@ import {
 import Avatar from "@material-ui/core/Avatar";
 import Registro from "./components/Registro";
 import PerfilMascota from "./components/Public/PerfilMascota";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
@@ -52,7 +52,7 @@ function App() {
           <ToastContainer />
           <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
-              <a className="navbar-brand">HIPERGAS</a>
+              <NavLink to={'/'} className="navbar-brand">HIPERGAS</NavLink>
               <button
                 className="navbar-toggler"
                 type="button"
@@ -98,12 +98,13 @@ function App() {
 
                 <ul className="navbar-nav ">
                   <li className="nav-item dropstart ">
-                    <a
+                    <NavLink
                       className="nav-link dropdown-toggle"
                       id="navbarDropdownMenuLink"
                       role="button"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
+                      to={""}
                     >
                       {value ? (
                         <div className="d-flex align-items-center">
@@ -111,7 +112,7 @@ function App() {
 
                           {/* <Avatar alt="" src={value.user.image} /> */}
 
-                          {value.user.SignUpType != "Manual" ? (
+                          {value.user.SignUpType !== "Manual" ? (
                             <Avatar src={value.user.image} />
                           ) : (
                             <Avatar src={url + value.user.image} />
@@ -122,7 +123,7 @@ function App() {
                           </b>
                         </div>
                       ) : null}
-                    </a>
+                    </NavLink>
                     <ul className="dropdown-menu dropdown-menu-dark">
                       <li>
                         <NavLink to={"/Profile"} className="dropdown-item">
