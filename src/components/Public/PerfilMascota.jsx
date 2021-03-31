@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
 import Map from "./Map";
-import credentials from "./credentials";
+// import credentials from "./credentials";
 
 function PerfilMascota() {
   const [params] = useState(useParams());
