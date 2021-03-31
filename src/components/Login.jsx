@@ -169,7 +169,7 @@ function Login(props) {
         localStorage.setItem('session', JSON.stringify(resultado.data));
         console.log(resultado)
         if (resultado.data.user.address = "" || resultado.data.user.phone === "") {
-          toast.warn('Faltan algunos datos de tu perfil, seras redirigido a tu perfil por favor actualizalos.', {
+          toast.warn('Faltan algunos datos importantes de tu cuenta, seras redirigido a tu perfil por favor actualizalos.', {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -228,11 +228,14 @@ function Login(props) {
                   Iniciar sesion <ArrowRight />
                 </button>
               </div>
-              <div className="mb-3">
+
+              <div className="mb3">
                 <i><NavLink to={"/RecuperarPass"} >
                   ¿Perdiste tu contraseña?
                 </NavLink></i>
+              </div>
 
+              <div className="mb-3">
                 <i><NavLink to={"/Registro"} >
                   Registrate
                 </NavLink>  Ó inicia con:</i>

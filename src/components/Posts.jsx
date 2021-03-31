@@ -103,14 +103,15 @@ function Posts() {
                                     {p.userID.SignUpType != "Manual" ? <Avatar src={p.userID.image} /> : <Avatar src={url + p.userID.image} />}
                                 </ListItemAvatar>
                                 <div className="row">
-                                    {p.image ?
-                                        <div className="col-md-8">
-                                            <img className="card-img-top m-1" src={url + p.image} style={{ maxHeight: '600px', maxWidth: '600px' }} />
-                                        </div>
-                                        : null}
-                                    <div className="col-md-4">
+
+                                    <div className="col-md-12">
                                         <h6>{p.userID.fullName}</h6>
                                     </div>
+                                    {p.image ?
+                                        <div className="col-md-12">
+                                            <img className="card-img-top rounded-3 m-1" src={url + p.image} style={{ maxHeight: '600px', maxWidth: '600px' }} />
+                                        </div>
+                                        : null}
                                     <div className="col-md-12">
                                         <Typography
                                             component="span"
