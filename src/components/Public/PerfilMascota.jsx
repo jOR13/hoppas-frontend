@@ -10,25 +10,26 @@ function PerfilMascota() {
   const [parametros, setParametros] = useState([]);
   const [showMap, setShowMap] = useState(false);
   const url = process.env.REACT_APP_API_URL;
-const mapsKey = process.env.REACT_APP_ID_MAP
+  const mapsKey = process.env.REACT_APP_ID_MAP
   let options = {
     enableHighAccuracy: true,
     timeout: 6000,
     maximumAge: 0,
   };
 
-  const { latitude, longitude } = parametros;
+
 
   useEffect(() => {
     console.log(params.id)
     navigator.geolocation.getCurrentPosition(success, error, options);
     getQR(params.id);
 
-   
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+
 
   }, []);
+ // eslint-disable-next-line react-hooks/exhaustive-deps
 
- 
 
   function success(position) {
     let coordenadas = position.coords;
@@ -115,7 +116,7 @@ const mapsKey = process.env.REACT_APP_ID_MAP
                   <img
                     className="align-self-sm-center align-self-center mt-5 mb-4 shape-inner circle card-img-top w-50"
                     src={process.env.REACT_APP_API_URL + qr.mascotaID.imageID}
-                    alt="Card image cap"
+                    alt="Card cap"
                   />
                   <div className="card-body">
                     {qr.mascotaID.type.toUpperCase() === "GATO" ? (
@@ -148,7 +149,7 @@ const mapsKey = process.env.REACT_APP_ID_MAP
                   </div>
 
                   <a className="btn btn-outline-success btn-sm m-5 mb-2"
-                    href="https://api.whatsapp.com/send?phone=+526566763854"
+                    rel="noreferrer" href="https://api.whatsapp.com/send?phone=+526566763854"
                     target="_blank"
                   >
                     Contactarme
@@ -179,7 +180,7 @@ const mapsKey = process.env.REACT_APP_ID_MAP
                 </h4>
               </div>
               <div className="col-md-12 mb-3 d-flex justify-content-center">
-                <img src="https://image.freepik.com/vector-gratis/plantilla-web-error-404-gato-gracioso_23-2147763339.jpg" />
+                <img alt="" src="https://image.freepik.com/vector-gratis/plantilla-web-error-404-gato-gracioso_23-2147763339.jpg" />
               </div>
             </>
           )}

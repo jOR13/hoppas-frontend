@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 // import logo from "../assets/images/logo.png";
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import userImage from "../assets/images/user.png";
 import { ArrowRight, Facebook, Google } from "react-bootstrap-icons";
@@ -11,10 +11,10 @@ import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
 function Login(props) {
 
-  const {  setValue } = useContext(UserContext);
+  const { value, setValue } = useContext(UserContext);
   const [user, setUser] = useState("");
   const [pass, setPass] = useState("");
-  const [ setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // useEffect(() => {
   //   console.log(process.env.REACT_APP_API_URL)

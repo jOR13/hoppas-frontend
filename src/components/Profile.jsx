@@ -73,8 +73,8 @@ function Profile(props) {
                                 <div className="col-md-6 d-flex justify-content-start border-top justify-content-md-end">
                                     <div className="card border-0">
                                         <div className="card-body">
-                                            <a className="link" href="#"><h5 className="mt-3 link2 d-flex align-items-center me-1"><Facebook size={20} />Facebook</h5></a>
-                                            <a className="link" href="#"><h5 className="mt-3 link2 d-flex align-items-center me-1"><Instagram size={20} />Instagram</h5></a>
+                                            <h5 className="mt-3 link2 d-flex align-items-center me-1"><Facebook size={20} />Facebook</h5>
+                                            <h5 className="mt-3 link2 d-flex align-items-center me-1"><Instagram size={20} />Instagram</h5>
                                         </div>
                                     </div>
                                 </div>

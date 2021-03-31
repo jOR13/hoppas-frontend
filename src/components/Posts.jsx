@@ -28,6 +28,7 @@ function Posts() {
         const u = JSON.parse(localStorage.getItem("session"))
         setUser(u);
         getPosts();
+         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [update])
 
     const getPosts = async () => {

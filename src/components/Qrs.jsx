@@ -17,6 +17,7 @@ function Qrs() {
         setUser(JSON.parse(localStorage.getItem("session")));
         getQrs()
         getPets()
+         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [update])
 
     const getQrs = async () => {
@@ -51,7 +52,7 @@ function Qrs() {
 
     const agregarQR = async () => {
         // console.log(user)
-        if (qrCode != "") {
+        if (qrCode !== "") {
             try {
                 const data = {
                     status: "asigned",
@@ -71,17 +72,17 @@ function Qrs() {
     const updatePET = async (id) => {
         // e.preventDefault();
         console.log(selected)
-        if (selected != "empty" && selected != "" && selected != {}) {
+        if (selected !== "empty" && selected !== "" && selected !== {}) {
             try {
                 const data = {
                     status: "vincular",
                     mascotaID: selected
                 }
 
-                const res = await axios.put(url + 'api/qrs/' + id, data);
+                await axios.put(url + 'api/qrs/' + id, data);
                 // console.log({ res });
 
-                const res2 = await axios.put(url + 'api/pets/' + selected, { qrID: id });
+                await axios.put(url + 'api/pets/' + selected, { qrID: id });
                 // console.log({ res2 });
 
 
@@ -152,7 +153,7 @@ function Qrs() {
                                 <div className="card-body text-center d-grid gap-2 d-md-block position-relative">
                                     {qr.mascotaID ? (
                                         <>
-                                        <b>{qr.code}</b>
+                                            <b>{qr.code}</b>
                                             <QRCode
                                                 className="card-img-top mt-3 "
                                                 value={url + qr._id}
@@ -186,7 +187,7 @@ function Qrs() {
                                     ) :
                                         (
                                             <>
-                                               <b>{qr.code}</b>
+                                                <b>{qr.code}</b>
                                                 <QRCode
                                                     className="card-img-top mt-3 "
                                                     value={url + qr._id}

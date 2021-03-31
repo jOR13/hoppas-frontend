@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { ArrowRight, PersonCircle, Envelope, House, Lock, Phone, EmojiAngry } from "react-bootstrap-icons";
+import { ArrowRight, PersonCircle, Envelope, House, Lock, Phone } from "react-bootstrap-icons";
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import axios from 'axios'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function Registro(props) {
@@ -14,7 +14,7 @@ function Registro(props) {
     const [selectedFile, setSelectedFile] = useState(null);
     const [loading, setLoading] = useState(false);
     const [errorConsulta, setErrorConsulta] = useState(null);
-    const [btnDisable, setBtnDisable] = useState(true);
+    const [ setBtnDisable] = useState(true);
 
     const url = process.env.REACT_APP_API_URL;
 
