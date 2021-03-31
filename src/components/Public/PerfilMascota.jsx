@@ -10,7 +10,7 @@ function PerfilMascota() {
   const [parametros, setParametros] = useState([]);
   const [showMap, setShowMap] = useState(false);
   const url = process.env.REACT_APP_API_URL;
-
+const mapsKey = process.env.REACT_APP_ID_MAP
   let options = {
     enableHighAccuracy: true,
     timeout: 6000,
@@ -156,8 +156,8 @@ function PerfilMascota() {
                   {showMap ? (
                     <Map
                       parametros={parametros}
-                      // googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&key=${process.env.REACT_APP_MAP}`}
-                      googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&key=${credentials.mapsKey}`}
+                      googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&key=${mapsKey}`}
+                      // googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&key=${credentials.mapsKey}`}
                       containerElement={<div style={{ height: 600 }} />}
                       mapElement={<div style={{ height: 600, }} />}
                       loadingElement={<p className="mb-5">Cargando</p>}
